@@ -112,9 +112,9 @@
         /* ---------- تنسيق الهيدر والأعلام ---------- */
         .header-with-flags {
             display: flex;
-            justify-content: space-between; 
-            align-items: center; 
-            padding: 15px 40px; 
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 40px;
             background-color: var(--saudi-green);
             color: var(--pure-white);
             border-bottom: 4px solid var(--accent-gold);
@@ -123,27 +123,27 @@
 
         .title-container {
             text-align: center;
-            flex-grow: 1; 
+            flex-grow: 1;
         }
 
-        .header-with-flags h1 { 
-            margin: 0; 
-            font-size: 2.2rem; 
-            text-shadow: 1px 1px 3px rgba(0,0,0,0.3); 
+        .header-with-flags h1 {
+            margin: 0;
+            font-size: 2.2rem;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
         }
-        
-        .header-with-flags p { 
-            margin: 10px 0 0 0; 
-            color: #E2E8F0; 
-            font-size: 1.1rem; 
+
+        .header-with-flags p {
+            margin: 10px 0 0 0;
+            color: #E2E8F0;
+            font-size: 1.1rem;
         }
 
         .saudi-flag-img {
-            width: 70px; 
+            width: 70px;
             height: auto;
             border-radius: 4px;
-            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3); 
-            border: 1px solid rgba(255, 255, 255, 0.2); 
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.2);
         }
 
         /* ---------- شريط التصفية التفاعلية للأقسام ---------- */
@@ -179,7 +179,7 @@
             display: flex;
             justify-content: center;
             align-items: flex-start;
-            gap: 20px; 
+            gap: 20px;
             padding: 0 20px;
         }
 
@@ -199,20 +199,19 @@
             flex-shrink: 0;
             color: #FFFFFF;
             text-shadow: 1px 1px 3px rgba(0,0,0,0.8);
-            
             background-size: 100% 100%;
             background-position: center;
             background-repeat: no-repeat;
         }
 
-        .sadu-right { 
-            background-image: url('sadu-right.png'); 
+        .sadu-right {
+            background-image: url('sadu-right.png');
         }
 
-        .ahsa-left { 
-            background-image: url('ahsa-left.png'); 
-            color: var(--saudi-green); 
-            text-shadow: none; 
+        .ahsa-left {
+            background-image: url('ahsa-left.png');
+            color: var(--saudi-green);
+            text-shadow: none;
         }
 
         /* ---------- الحاوية الخارجية وأزرار التكبير العائمة ---------- */
@@ -251,7 +250,11 @@
             padding: 0;
         }
 
-        .zoom-btn-v:hover { background-color: var(--saudi-green); color: var(--pure-white); transform: scale(1.1); }
+        .zoom-btn-v:hover {
+            background-color: var(--saudi-green);
+            color: var(--pure-white);
+            transform: scale(1.1);
+        }
 
         /* حاوية التمرير للشبكة */
         .grid-scroll-wrapper {
@@ -262,7 +265,7 @@
             box-shadow: 0 0 20px rgba(0, 108, 53, 0.15);
             background-color: var(--pure-white);
             position: relative;
-            cursor: crosshair; 
+            cursor: crosshair;
         }
 
         /* شبكة المليون بكسل */
@@ -270,10 +273,11 @@
             width: 1000px;
             height: 1000px;
             position: absolute;
-            top: 0; right: 0;
+            top: 0;
+            right: 0;
             transform-origin: top right;
             transition: transform 0.3s ease;
-            background-image: 
+            background-image:
                 linear-gradient(to right, #e2e8f0 1px, transparent 1px),
                 linear-gradient(to bottom, #e2e8f0 1px, transparent 1px);
             background-size: 10px 10px;
@@ -287,7 +291,7 @@
             box-sizing: border-box;
             border: 1px solid rgba(0,0,0,0.1);
             transition: transform 0.3s ease, opacity 0.3s ease, z-index 0.3s ease;
-            background-color: #f1f1f1; 
+            background-color: #f1f1f1;
         }
 
         .ad-block:hover {
@@ -297,7 +301,11 @@
             box-shadow: 0 0 12px var(--saudi-green);
         }
 
-        .ad-block.dimmed { opacity: 0.1; pointer-events: none; filter: grayscale(100%); }
+        .ad-block.dimmed {
+            opacity: 0.1;
+            pointer-events: none;
+            filter: grayscale(100%);
+        }
 
         /* ---------- مؤشر الإحداثيات (المستكشف) ---------- */
         .coord-tooltip {
@@ -337,32 +345,87 @@
             border: 2px solid #fff;
         }
 
-        .floating-whatsapp:hover { transform: scale(1.05); }
+        .floating-whatsapp:hover {
+            transform: scale(1.05);
+        }
 
         /* ---------- التذييل ونافذة الشروط ---------- */
-        footer { margin: 30px 0 60px 0; font-size: 0.9rem; color: #718096; }
-        .terms-link { color: var(--saudi-green); text-decoration: underline; cursor: pointer; font-weight: bold; }
+        footer {
+            margin: 30px 0 60px 0;
+            font-size: 0.9rem;
+            color: #718096;
+        }
 
-        .modal-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background-color: rgba(0, 0, 0, 0.7); z-index: 2000; justify-content: center; align-items: center; }
-        .modal-content { background-color: var(--pure-white); padding: 30px; border-radius: 10px; max-width: 600px; width: 90%; text-align: right; position: relative; border: 2px solid var(--accent-gold); box-shadow: 0 10px 25px rgba(0,0,0,0.5); }
-        .modal-content h2 { color: var(--saudi-green); margin-top: 0; border-bottom: 2px solid #e2e8f0; padding-bottom: 10px; }
-        .modal-content ol { line-height: 1.8; color: var(--dark-text); }
-        .close-modal { position: absolute; top: 15px; left: 15px; background: none; border: none; font-size: 1.5rem; cursor: pointer; color: #E53E3E; }
+        .terms-link {
+            color: var(--saudi-green);
+            text-decoration: underline;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background-color: var(--pure-white);
+            padding: 30px;
+            border-radius: 10px;
+            max-width: 600px;
+            width: 90%;
+            text-align: right;
+            position: relative;
+            border: 2px solid var(--accent-gold);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+        }
+
+        .modal-content h2 {
+            color: var(--saudi-green);
+            margin-top: 0;
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 10px;
+        }
+
+        .modal-content ol {
+            line-height: 1.8;
+            color: var(--dark-text);
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #E53E3E;
+        }
 
         /* ---------- التجاوب مع شاشات الجوال ---------- */
         @media (max-width: 768px) {
             .stats-text { flex-direction: column; gap: 5px; text-align: center; }
             .side-pattern { display: none; }
             .main-layout { padding: 0 10px; }
+            .grid-outer-wrapper { width: 100%; }
             .zoom-controls-wrapper { margin-right: 5px; width: 28px; }
             .zoom-btn-v { width: 28px; height: 30px; font-size: 0.9rem; }
             .grid-scroll-wrapper { width: 100%; height: 500px; }
             .floating-whatsapp { bottom: 20px; left: 20px; padding: 10px 20px; font-size: 1rem; }
             .coord-tooltip { display: none !important; }
-            
+
             /* تعديلات الهيدر والأعلام للجوال */
             .header-with-flags { padding: 15px 15px; }
-            .saudi-flag-img { width: 45px; } 
+            .saudi-flag-img { width: 45px; }
             .header-with-flags h1 { font-size: 1.6rem; }
             .header-with-flags p { font-size: 0.95rem; }
         }
@@ -373,12 +436,12 @@
     <div class="pricing-banner">
         <div class="banner-content">
             <div class="stats-text">
-                <div><span class="current-price">المرحلة الحالية: 100 ريال / للبلوك</span></div>
-                <div class="urgency-text">🔥 انتبه: السعر سيرتفع للضعف (200 ريال) عند 50%</div>
+                <div><span class="current-price" id="currentPrice">المرحلة الحالية: 100 ريال / للبلوك</span></div>
+                <div class="urgency-text" id="urgencyText">🔥 انتبه: السعر سيرتفع للضعف (200 ريال) عند 50%</div>
             </div>
             <div class="progress-track">
-                <div class="progress-fill" style="width: 5%;"></div>
-                <div class="progress-text">تم بيع 5%</div>
+                <div class="progress-fill" id="progressFill" style="width: 0%;"></div>
+                <div class="progress-text" id="progressText">تم بيع 0%</div>
             </div>
         </div>
     </div>
@@ -387,12 +450,12 @@
         <div class="flag-container">
             <img src="https://flagcdn.com/w160/sa.png" alt="علم السعودية" class="saudi-flag-img">
         </div>
-        
+
         <div class="title-container">
             <h1>الواجهة السعودية</h1>
             <p>دليل الأعمال الرقمي الأبرز | مساحتك الإعلانية الدائمة</p>
         </div>
-        
+
         <div class="flag-container">
             <img src="https://flagcdn.com/w160/sa.png" alt="علم السعودية" class="saudi-flag-img">
         </div>
@@ -400,11 +463,11 @@
 
     <div class="filter-bar">
         <button class="filter-btn active" data-filter="all">الكل</button>
-        <button class="filter-btn" data-filter="real-estate">عقارات ومقاولات</button>
-        <button class="filter-btn" data-filter="cars">سيارات وخدماتها</button>
-        <button class="filter-btn" data-filter="medical">صحة وتجميل</button>
-        <button class="filter-btn" data-filter="commerce">تجارة ومطاعم</button>
-        <button class="filter-btn" data-filter="agriculture">زراعة وبيئة</button>
+        <button class="filter-btn" data-filter="عقارات ومقاولات">عقارات ومقاولات</button>
+        <button class="filter-btn" data-filter="سيارات وخدماتها">سيارات وخدماتها</button>
+        <button class="filter-btn" data-filter="صحة وتجميل">صحة وتجميل</button>
+        <button class="filter-btn" data-filter="تجارة ومطاعم">تجارة ومطاعم</button>
+        <button class="filter-btn" data-filter="زراعة وبيئة">زراعة وبيئة</button>
     </div>
 
     <div class="main-layout">
@@ -459,22 +522,28 @@
             let currentScale = baseScale;
             grid.style.transform = `scale(${currentScale})`;
 
-            // 1. القارئ الآلي: رسم الإعلانات من ملف ads.js
+            // 1. القارئ الآلي: رسم الإعلانات وقراءة التاقات من ads.js
             function renderAds() {
-                grid.innerHTML = ''; // تنظيف الشبكة
-                if (typeof adsData !== 'undefined') {
+                grid.innerHTML = '';
+                if (typeof adsData !== 'undefined' && Array.isArray(adsData)) {
                     adsData.forEach(ad => {
                         const a = document.createElement('a');
                         a.href = ad.link;
                         a.target = '_blank';
                         a.className = 'ad-block';
-                        a.setAttribute('data-category', ad.category);
+
+                        const tagsList = Array.isArray(ad.tags)
+                            ? ad.tags.map(t => t.trim())
+                            : (ad.category ? [ad.category] : []);
+                        a.setAttribute('data-tags', tagsList.join('|'));
+                        a.setAttribute('data-name', ad.name || '');
+
                         a.title = ad.name;
                         a.style.width = ad.w + 'px';
                         a.style.height = ad.h + 'px';
                         a.style.right = ad.x + 'px';
                         a.style.top = ad.y + 'px';
-                        if(ad.image) {
+                        if (ad.image) {
                             a.style.backgroundImage = `url('${ad.image}')`;
                             a.style.backgroundSize = 'cover';
                             a.style.backgroundPosition = 'center';
@@ -485,16 +554,46 @@
             }
             renderAds();
 
-            // 2. برمجة التصفية التفاعلية للأقسام (Filters)
+            // 2. تحديث شريط التقدم ونسبة المبيعات تلقائياً من ads.js
+            function updateProgress() {
+                let soldPixels = 0;
+                if (typeof adsData !== 'undefined' && Array.isArray(adsData)) {
+                    adsData.forEach(ad => {
+                        const w = Number(ad.w) || 0;
+                        const h = Number(ad.h) || 0;
+                        soldPixels += (w * h);
+                    });
+                }
+
+                const rawPercent = Math.min(100, (soldPixels / 1000000) * 100);
+                const displayPercent = Number(rawPercent.toFixed(2));
+
+                const progressFill = document.getElementById('progressFill');
+                const progressText = document.getElementById('progressText');
+                const currentPrice = document.getElementById('currentPrice');
+                const urgencyText = document.getElementById('urgencyText');
+
+                if (progressFill) progressFill.style.width = rawPercent + '%';
+                if (progressText) progressText.textContent = `تم بيع ${displayPercent}%`;
+
+                if (rawPercent >= 50) {
+                    if (currentPrice) currentPrice.textContent = 'المرحلة الحالية: 200 ريال / للبلوك';
+                    if (urgencyText) urgencyText.textContent = '🔥 تم تجاوز 50%! احجز مساحتك قبل نفاد اللوحة';
+                }
+            }
+            updateProgress();
+
+            // 3. برمجة التصفية التفاعلية عبر التاقات
             const filterBtns = document.querySelectorAll('.filter-btn');
             filterBtns.forEach(btn => {
                 btn.addEventListener('click', () => {
                     filterBtns.forEach(b => b.classList.remove('active'));
                     btn.classList.add('active');
                     const filterValue = btn.getAttribute('data-filter');
-                    const adBlocks = document.querySelectorAll('.ad-block'); 
+                    const adBlocks = document.querySelectorAll('.ad-block');
                     adBlocks.forEach(ad => {
-                        if (filterValue === 'all' || ad.getAttribute('data-category') === filterValue) {
+                        const adTags = (ad.getAttribute('data-tags') || '').split('|');
+                        if (filterValue === 'all' || adTags.includes(filterValue)) {
                             ad.classList.remove('dimmed');
                         } else {
                             ad.classList.add('dimmed');
@@ -503,45 +602,52 @@
                 });
             });
 
-            // 3. برمجة التكبير والتصغير
+            // 4. برمجة التكبير والتصغير
             const zoomInBtn = document.getElementById('zoom-in');
             const zoomOutBtn = document.getElementById('zoom-out');
             const zoomResetBtn = document.getElementById('zoom-reset');
 
             zoomInBtn.addEventListener('click', () => {
-                if (currentScale < 3) { currentScale += 0.2; grid.style.transform = `scale(${currentScale})`; }
-            });
-            zoomOutBtn.addEventListener('click', () => {
-                if (currentScale > baseScale) { currentScale -= 0.2; if(currentScale < baseScale) currentScale = baseScale; grid.style.transform = `scale(${currentScale})`; }
-            });
-            zoomResetBtn.addEventListener('click', () => {
-                currentScale = baseScale; grid.style.transform = `scale(${currentScale})`;
+                if (currentScale < 3) {
+                    currentScale = Math.min(3, +(currentScale + 0.2).toFixed(1));
+                    grid.style.transform = `scale(${currentScale})`;
+                }
             });
 
-            // 4. نافذة الشروط والأحكام
+            zoomOutBtn.addEventListener('click', () => {
+                const minScale = window.innerWidth <= 768 ? baseScale : 0.6;
+                if (currentScale > minScale) {
+                    currentScale = Math.max(minScale, +(currentScale - 0.2).toFixed(1));
+                    grid.style.transform = `scale(${currentScale})`;
+                }
+            });
+
+            zoomResetBtn.addEventListener('click', () => {
+                currentScale = baseScale;
+                grid.style.transform = `scale(${currentScale})`;
+            });
+
+            // 5. نافذة الشروط والأحكام
             const termsModal = document.getElementById('termsModal');
             document.getElementById('openTerms').addEventListener('click', () => termsModal.style.display = 'flex');
             document.getElementById('closeTerms').addEventListener('click', () => termsModal.style.display = 'none');
             window.addEventListener('click', (e) => { if (e.target === termsModal) termsModal.style.display = 'none'; });
 
-            // 5. رادار الإحداثيات (المستكشف) الذكي
+            // 6. رادار الإحداثيات (المستكشف) الذكي
             const tooltip = document.createElement('div');
             tooltip.className = 'coord-tooltip';
             document.body.appendChild(tooltip);
 
             grid.addEventListener('mousemove', (e) => {
                 const rect = grid.getBoundingClientRect();
-                // حساب المسافة الدقيقة من اليمين ومن الأعلى (باعتبار التكبير الحالي)
                 let rawX = (rect.right - e.clientX) / currentScale;
                 let rawY = (e.clientY - rect.top) / currentScale;
 
-                // تقريب الرقم لأقرب 10 ليتطابق مع خطوط الشبكة الهندسية
                 let gridX = Math.floor(rawX / 10) * 10;
                 let gridY = Math.floor(rawY / 10) * 10;
 
-                // حماية الأطراف
-                if(gridX < 0) gridX = 0; if(gridY < 0) gridY = 0;
-                if(gridX > 990) gridX = 990; if(gridY > 990) gridY = 990;
+                if (gridX < 0) gridX = 0; if (gridY < 0) gridY = 0;
+                if (gridX > 990) gridX = 990; if (gridY > 990) gridY = 990;
 
                 tooltip.innerHTML = `يمين: ${gridX} | أعلى: ${gridY}`;
                 tooltip.style.display = 'block';
@@ -552,7 +658,6 @@
             grid.addEventListener('mouseleave', () => {
                 tooltip.style.display = 'none';
             });
-
         });
     </script>
 </body>
