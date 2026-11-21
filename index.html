@@ -461,13 +461,9 @@
         </div>
     </header>
 
-    <div class="filter-bar">
+    <!-- شريط التصفية: يبني نفسه تلقائياً ويعرض الأقسام التي تحتوي على إعلانات فقط -->
+    <div class="filter-bar" id="filterBar">
         <button class="filter-btn active" data-filter="all">الكل</button>
-        <button class="filter-btn" data-filter="عقارات ومقاولات">عقارات ومقاولات</button>
-        <button class="filter-btn" data-filter="سيارات وخدماتها">سيارات وخدماتها</button>
-        <button class="filter-btn" data-filter="صحة وتجميل">صحة وتجميل</button>
-        <button class="filter-btn" data-filter="تجارة ومطاعم">تجارة ومطاعم</button>
-        <button class="filter-btn" data-filter="زراعة وبيئة">زراعة وبيئة</button>
     </div>
 
     <div class="main-layout">
@@ -518,13 +514,34 @@
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const grid = document.getElementById('pixelGrid');
+            const filterBar = document.getElementById('filterBar');
+
+            // القائمة المعتمدة للتصنيفات الرئيسية بالترتيب
+            const MAIN_CATEGORIES = [
+                'عقارات ومقاولات',
+                'تجارة ومتاجر',
+                'مطاعم وكافيهات',
+                'سياحة وضيافة',
+                'سيارات ونقل',
+                'صحة وتجميل',
+                'تقنية وأعمال',
+                'تعليم وتدريب',
+                'زراعة وبيئة',
+                'أنشطة أخرى'
+            ];
+
             let baseScale = window.innerWidth <= 768 ? 0.4 : 1;
             let currentScale = baseScale;
             grid.style.transform = `scale(${currentScale})`;
 
+            // مجموعة لحفظ الأقسام النشطة التي تحتوي على إعلان واحد على الأقل
+            const activeCategories = new Set();
+
             // 1. القارئ الآلي: رسم الإعلانات وقراءة التاقات من ads.js
             function renderAds() {
                 grid.innerHTML = '';
+                activeCategories.clear();
+
                 if (typeof adsData !== 'undefined' && Array.isArray(adsData)) {
                     adsData.forEach(ad => {
                         const a = document.createElement('a');
@@ -532,9 +549,22 @@
                         a.target = '_blank';
                         a.className = 'ad-block';
 
-                        const tagsList = Array.isArray(ad.tags)
-                            ? ad.tags.map(t => t.trim())
-                            : (ad.category ? [ad.category] : []);
+                        let tagsList = Array.isArray(ad.tags)
+                            ? ad.tags.map(t => t.trim()).filter(Boolean)
+                            : (ad.category ? [ad.category.trim()] : []);
+
+                        // إذا لم يرتبط الشعار بأي تصنيف رئيسي، يُصنّف تلقائياً تحت "أنشطة أخرى"
+                        const hasMainCategory = tagsList.some(t => MAIN_CATEGORIES.includes(t));
+                        if (!hasMainCategory) {
+                            tagsList.push('أنشطة أخرى');
+                        }
+
+                        tagsList.forEach(t => {
+                            if (MAIN_CATEGORIES.includes(t)) {
+                                activeCategories.add(t);
+                            }
+                        });
+
                         a.setAttribute('data-tags', tagsList.join('|'));
                         a.setAttribute('data-name', ad.name || '');
 
@@ -554,7 +584,47 @@
             }
             renderAds();
 
-            // 2. تحديث شريط التقدم ونسبة المبيعات تلقائياً من ads.js
+            // 2. بناء شريط التصفية الذكي (يعرض الأقسام التي فيها إعلانات فقط)
+            function buildFilterBar() {
+                filterBar.innerHTML = '';
+
+                const allBtn = document.createElement('button');
+                allBtn.className = 'filter-btn active';
+                allBtn.setAttribute('data-filter', 'all');
+                allBtn.textContent = 'الكل';
+                filterBar.appendChild(allBtn);
+
+                MAIN_CATEGORIES.forEach(cat => {
+                    if (activeCategories.has(cat)) {
+                        const btn = document.createElement('button');
+                        btn.className = 'filter-btn';
+                        btn.setAttribute('data-filter', cat);
+                        btn.textContent = cat;
+                        filterBar.appendChild(btn);
+                    }
+                });
+
+                const filterBtns = filterBar.querySelectorAll('.filter-btn');
+                filterBtns.forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        filterBtns.forEach(b => b.classList.remove('active'));
+                        btn.classList.add('active');
+                        const filterValue = btn.getAttribute('data-filter');
+                        const adBlocks = document.querySelectorAll('.ad-block');
+                        adBlocks.forEach(ad => {
+                            const adTags = (ad.getAttribute('data-tags') || '').split('|');
+                            if (filterValue === 'all' || adTags.includes(filterValue)) {
+                                ad.classList.remove('dimmed');
+                            } else {
+                                ad.classList.add('dimmed');
+                            }
+                        });
+                    });
+                });
+            }
+            buildFilterBar();
+
+            // 3. تحديث شريط التقدم ونسبة المبيعات تلقائياً من ads.js
             function updateProgress() {
                 let soldPixels = 0;
                 if (typeof adsData !== 'undefined' && Array.isArray(adsData)) {
@@ -582,25 +652,6 @@
                 }
             }
             updateProgress();
-
-            // 3. برمجة التصفية التفاعلية عبر التاقات
-            const filterBtns = document.querySelectorAll('.filter-btn');
-            filterBtns.forEach(btn => {
-                btn.addEventListener('click', () => {
-                    filterBtns.forEach(b => b.classList.remove('active'));
-                    btn.classList.add('active');
-                    const filterValue = btn.getAttribute('data-filter');
-                    const adBlocks = document.querySelectorAll('.ad-block');
-                    adBlocks.forEach(ad => {
-                        const adTags = (ad.getAttribute('data-tags') || '').split('|');
-                        if (filterValue === 'all' || adTags.includes(filterValue)) {
-                            ad.classList.remove('dimmed');
-                        } else {
-                            ad.classList.add('dimmed');
-                        }
-                    });
-                });
-            });
 
             // 4. برمجة التكبير والتصغير
             const zoomInBtn = document.getElementById('zoom-in');
