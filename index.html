@@ -15,9 +15,14 @@
             --dark-text: #2D3748;
         }
 
-        body {
+        html, body {
             margin: 0;
             padding: 0;
+            max-width: 100%;
+            overflow-x: clip;
+        }
+
+        body {
             background-color: var(--off-white);
             color: var(--dark-text);
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -34,6 +39,7 @@
             z-index: 1000;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
             direction: rtl;
+            box-sizing: border-box;
         }
 
         .banner-content {
@@ -119,6 +125,7 @@
             color: var(--pure-white);
             border-bottom: 4px solid var(--accent-gold);
             margin-bottom: 15px;
+            box-sizing: border-box;
         }
 
         .title-container {
@@ -154,6 +161,7 @@
             gap: 10px;
             margin-bottom: 20px;
             padding: 0 20px;
+            box-sizing: border-box;
         }
 
         .filter-btn {
@@ -181,6 +189,7 @@
             align-items: flex-start;
             gap: 20px;
             padding: 0 20px;
+            box-sizing: border-box;
         }
 
         /* ---------- الزخارف الجانبية المحدثة ---------- */
@@ -218,6 +227,7 @@
         .grid-outer-wrapper {
             position: relative;
             max-width: 1000px;
+            box-sizing: border-box;
         }
 
         .zoom-controls-wrapper {
@@ -266,6 +276,17 @@
             background-color: var(--pure-white);
             position: relative;
             cursor: crosshair;
+            overscroll-behavior: contain;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        /* حاوية ضبط الأبعاد الحقيقية للشبكة لمنع الخروج خارج حدودها */
+        .grid-sizer {
+            position: relative;
+            width: 1000px;
+            height: 1000px;
+            overflow: hidden;
+            margin: 0 auto;
         }
 
         /* شبكة المليون بكسل */
@@ -276,7 +297,7 @@
             top: 0;
             right: 0;
             transform-origin: top right;
-            transition: transform 0.3s ease;
+            transition: transform 0.25s ease;
             background-image:
                 linear-gradient(to right, #e2e8f0 1px, transparent 1px),
                 linear-gradient(to bottom, #e2e8f0 1px, transparent 1px);
@@ -291,7 +312,17 @@
             box-sizing: border-box;
             border: 1px solid rgba(0,0,0,0.1);
             transition: transform 0.3s ease, opacity 0.3s ease, z-index 0.3s ease;
-            background-color: #f1f1f1;
+            background-color: #ffffff;
+            overflow: hidden;
+        }
+
+        .ad-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            pointer-events: none;
+            image-rendering: -webkit-optimize-contrast;
         }
 
         .ad-block:hover {
@@ -386,6 +417,7 @@
             position: relative;
             border: 2px solid var(--accent-gold);
             box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+            box-sizing: border-box;
         }
 
         .modal-content h2 {
@@ -416,10 +448,27 @@
             .stats-text { flex-direction: column; gap: 5px; text-align: center; }
             .side-pattern { display: none; }
             .main-layout { padding: 0 10px; }
-            .grid-outer-wrapper { width: 100%; }
-            .zoom-controls-wrapper { margin-right: 5px; width: 28px; }
-            .zoom-btn-v { width: 28px; height: 30px; font-size: 0.9rem; }
-            .grid-scroll-wrapper { width: 100%; height: 500px; }
+            .grid-outer-wrapper { width: 100%; max-width: 100%; }
+
+            /* شريط تكبير أفقي مرتب فوق الشبكة في الجوال */
+            .zoom-controls-wrapper {
+                position: static;
+                width: auto;
+                height: auto;
+                margin: 0 0 8px 0;
+                flex-direction: row;
+                justify-content: flex-start;
+                gap: 8px;
+            }
+            .zoom-btn-v { width: 34px; height: 32px; font-size: 0.95rem; }
+
+            .grid-scroll-wrapper {
+                width: 100%;
+                height: auto;
+                max-height: 70vh;
+                box-sizing: border-box;
+            }
+
             .floating-whatsapp { bottom: 20px; left: 20px; padding: 10px 20px; font-size: 1rem; }
             .coord-tooltip { display: none !important; }
 
@@ -476,9 +525,11 @@
                 <button id="zoom-out" class="zoom-btn-v" title="تصغير">➖</button>
             </div>
 
-            <div class="grid-scroll-wrapper">
-                <!-- الشبكة أصبحت فارغة، الكود سيرسم الإعلانات هنا تلقائياً -->
-                <main class="pixel-grid-container" id="pixelGrid"></main>
+            <div class="grid-scroll-wrapper" id="gridScrollWrapper">
+                <div class="grid-sizer" id="gridSizer">
+                    <!-- الشبكة أصبحت فارغة، الكود سيرسم الإعلانات هنا تلقائياً -->
+                    <main class="pixel-grid-container" id="pixelGrid"></main>
+                </div>
             </div>
         </div>
 
@@ -514,6 +565,8 @@
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const grid = document.getElementById('pixelGrid');
+            const gridSizer = document.getElementById('gridSizer');
+            const scrollWrapper = document.getElementById('gridScrollWrapper');
             const filterBar = document.getElementById('filterBar');
 
             // القائمة المعتمدة للتصنيفات الرئيسية بالترتيب
@@ -530,14 +583,41 @@
                 'أنشطة أخرى'
             ];
 
-            let baseScale = window.innerWidth <= 768 ? 0.4 : 1;
+            // حساب المقياس المناسب للشاشة بحيث تمتلئ حاوية الجوال بدون فراغات جانبية
+            function getBaseScale() {
+                if (window.innerWidth <= 768) {
+                    const innerWidth = scrollWrapper.clientWidth || (window.innerWidth - 26);
+                    return Math.min(1, innerWidth / 1000);
+                }
+                return 1;
+            }
+
+            let baseScale = getBaseScale();
             let currentScale = baseScale;
-            grid.style.transform = `scale(${currentScale})`;
+
+            // تطبيق التكبير مع ضبط أبعاد الحاوية الحقيقية لمنع التمرير خارج الشبكة
+            function applyScale(scale) {
+                currentScale = scale;
+                const scaledSize = Math.round(1000 * scale);
+                gridSizer.style.width = scaledSize + 'px';
+                gridSizer.style.height = scaledSize + 'px';
+                grid.style.transform = `scale(${scale})`;
+            }
+
+            applyScale(baseScale);
+
+            window.addEventListener('resize', () => {
+                const wasAtBase = Math.abs(currentScale - baseScale) < 0.02;
+                baseScale = getBaseScale();
+                if (wasAtBase || currentScale < baseScale) {
+                    applyScale(baseScale);
+                }
+            });
 
             // مجموعة لحفظ الأقسام النشطة التي تحتوي على إعلان واحد على الأقل
             const activeCategories = new Set();
 
-            // 1. القارئ الآلي: رسم الإعلانات وقراءة التاقات من ads.js
+            // 1. القارئ الآلي: رسم الإعلانات وعرض الشعارات كصور فعلية
             function renderAds() {
                 grid.innerHTML = '';
                 activeCategories.clear();
@@ -573,11 +653,42 @@
                         a.style.height = ad.h + 'px';
                         a.style.right = ad.x + 'px';
                         a.style.top = ad.y + 'px';
+
                         if (ad.image) {
-                            a.style.backgroundImage = `url('${ad.image}')`;
-                            a.style.backgroundSize = 'cover';
-                            a.style.backgroundPosition = 'center';
+                            const img = document.createElement('img');
+                            const cleanPath = ad.image.trim();
+                            img.src = encodeURI(cleanPath);
+                            img.alt = ad.name || '';
+                            img.className = 'ad-img';
+                            img.loading = 'eager';
+                            img.decoding = 'async';
+
+                            // محاولة بديلة تلقائية لو اختلف حرف الامتداد على سيرفر GitHub
+                            const fallbacks = [];
+                            const extMatch = cleanPath.match(/\.([a-zA-Z0-9]+)$/);
+                            if (extMatch) {
+                                const ext = extMatch[1];
+                                const base = cleanPath.slice(0, -ext.length);
+                                const candidates = [ext.toLowerCase(), ext.toUpperCase(), 'png', 'PNG', 'jpg', 'JPG', 'jpeg', 'JPEG', 'webp'];
+                                candidates.forEach(c => {
+                                    if (c !== ext && !fallbacks.includes(base + c)) {
+                                        fallbacks.push(base + c);
+                                    }
+                                });
+                            }
+
+                            let attempt = 0;
+                            img.onerror = () => {
+                                if (attempt < fallbacks.length) {
+                                    img.src = encodeURI(fallbacks[attempt++]);
+                                } else {
+                                    img.style.display = 'none';
+                                }
+                            };
+
+                            a.appendChild(img);
                         }
+
                         grid.appendChild(a);
                     });
                 }
@@ -660,22 +771,20 @@
 
             zoomInBtn.addEventListener('click', () => {
                 if (currentScale < 3) {
-                    currentScale = Math.min(3, +(currentScale + 0.2).toFixed(1));
-                    grid.style.transform = `scale(${currentScale})`;
+                    applyScale(Math.min(3, +(currentScale + 0.25).toFixed(2)));
                 }
             });
 
             zoomOutBtn.addEventListener('click', () => {
                 const minScale = window.innerWidth <= 768 ? baseScale : 0.6;
                 if (currentScale > minScale) {
-                    currentScale = Math.max(minScale, +(currentScale - 0.2).toFixed(1));
-                    grid.style.transform = `scale(${currentScale})`;
+                    applyScale(Math.max(minScale, +(currentScale - 0.25).toFixed(2)));
                 }
             });
 
             zoomResetBtn.addEventListener('click', () => {
-                currentScale = baseScale;
-                grid.style.transform = `scale(${currentScale})`;
+                baseScale = getBaseScale();
+                applyScale(baseScale);
             });
 
             // 5. نافذة الشروط والأحكام
