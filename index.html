@@ -109,6 +109,28 @@
             text-shadow: 1px 1px 2px rgba(255,255,255,0.8);
         }
 
+        .live-counters {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            background-color: #EDF2F7;
+            border: 1px solid #CBD5E0;
+            border-radius: 20px;
+            padding: 4px 14px;
+            font-size: 0.9rem;
+            color: var(--dark-text);
+        }
+
+        .live-counters strong {
+            color: var(--saudi-green);
+        }
+
+        .counter-divider {
+            color: #A0AEC0;
+        }
+
         @keyframes pulse {
             0% { opacity: 1; }
             50% { opacity: 0.6; }
@@ -289,7 +311,7 @@
             margin: 0 auto;
         }
 
-      /* شبكة المليون بكسل بخلفية رمادية ناعمة تبرز الشعارات البيضاء */
+        /* شبكة المليون بكسل بخلفية رمادية ناعمة تبرز الشعارات البيضاء */
         .pixel-grid-container {
             width: 1000px;
             height: 1000px;
@@ -313,7 +335,7 @@
             box-sizing: border-box;
             border: none;
             box-shadow: 0 0 0 1px rgba(0, 108, 53, 0.35), 0 2px 5px rgba(0, 0, 0, 0.16);
-            transition: transform 0.3s ease, opacity 0.3s ease, z-index 0.3s ease;
+            transition: transform 0.3s ease, opacity 0.3s ease, box-shadow 0.3s ease, z-index 0.3s ease;
             background-color: #ffffff;
             overflow: hidden;
         }
@@ -321,7 +343,7 @@
         .ad-img {
             width: 100%;
             height: 100%;
-            object-fit: cover;
+            object-fit: contain;
             display: block;
             pointer-events: none;
             image-rendering: -webkit-optimize-contrast;
@@ -330,8 +352,7 @@
         .ad-block:hover {
             transform: scale(1.1);
             z-index: 10;
-            border: 1px solid var(--accent-gold);
-            box-shadow: 0 0 12px var(--saudi-green);
+            box-shadow: 0 0 0 1px var(--accent-gold), 0 0 12px var(--saudi-green);
         }
 
         .ad-block.dimmed {
@@ -387,6 +408,7 @@
             margin: 30px 0 60px 0;
             font-size: 0.9rem;
             color: #718096;
+            line-height: 1.9;
         }
 
         .terms-link {
@@ -447,6 +469,9 @@
 
         /* ---------- التجاوب مع شاشات الجوال ---------- */
         @media (max-width: 768px) {
+            .pricing-banner { padding: 8px 12px; }
+            .banner-content { gap: 6px; }
+            .live-counters { font-size: 0.8rem; padding: 3px 10px; }
             .stats-text { flex-direction: column; gap: 5px; text-align: center; }
             .side-pattern { display: none; }
             .main-layout { padding: 0 10px; }
@@ -490,7 +515,12 @@
                 <div><span class="current-price" id="currentPrice">المرحلة الحالية: 100 ريال / للبلوك</span></div>
                 <div class="urgency-text" id="urgencyText">🔥 انتبه: السعر سيرتفع للضعف (200 ريال) عند 50%</div>
             </div>
-            <div class="progress-track">
+            <div class="live-counters" id="liveCounters">
+                <span>المشاريع المنضمة: <strong id="projectsCount">0</strong></span>
+                <span class="counter-divider">|</span>
+                <span>المساحة المحجوزة: <strong id="blocksCount">0</strong> بلوك (<span id="pixelsCount">0</span> بكسل)</span>
+            </div>
+            <div class="progress-track" id="progressTrack" style="display: none;">
                 <div class="progress-fill" id="progressFill" style="width: 0%;"></div>
                 <div class="progress-text" id="progressText">تم بيع 0%</div>
             </div>
@@ -543,11 +573,9 @@
     </a>
 
     <footer>
-       <footer style="line-height: 1.9;">
         © 2026 الواجهة السعودية. جميع الحقوق محفوظة. <br>
-        برمجة وتطوير: <strong style="color: #2D3748;">خضر بن محمد المؤمن</strong> <br>
+        برمجة وتطوير: <strong style="color: #2D3748;">خضر بن محمد بن علي المؤمن</strong> <br>
         <span class="terms-link" id="openTerms">الشروط والأحكام</span>
-    </footer>
     </footer>
 
     <div class="modal-overlay" id="termsModal">
@@ -658,9 +686,9 @@
                         a.style.height = ad.h + 'px';
                         a.style.right = ad.x + 'px';
                         a.style.top = ad.y + 'px';
-			if (ad.bg) a.style.backgroundColor = ad.bg;
-                        
-			if (ad.image) {
+                        if (ad.bg) a.style.backgroundColor = ad.bg;
+
+                        if (ad.image) {
                             const img = document.createElement('img');
                             const cleanPath = ad.image.trim();
                             img.src = encodeURI(cleanPath);
@@ -741,10 +769,13 @@
             }
             buildFilterBar();
 
-            // 3. تحديث شريط التقدم ونسبة المبيعات تلقائياً من ads.js
+            // 3. تحديث العدّاد الحي وتفعيل شريط النسبة تلقائياً عند 10%
             function updateProgress() {
                 let soldPixels = 0;
+                let projectsCount = 0;
+
                 if (typeof adsData !== 'undefined' && Array.isArray(adsData)) {
+                    projectsCount = adsData.length;
                     adsData.forEach(ad => {
                         const w = Number(ad.w) || 0;
                         const h = Number(ad.h) || 0;
@@ -752,16 +783,35 @@
                     });
                 }
 
+                const soldBlocks = +(soldPixels / 100).toFixed(1);
                 const rawPercent = Math.min(100, (soldPixels / 1000000) * 100);
                 const displayPercent = Number(rawPercent.toFixed(2));
 
+                const liveCounters = document.getElementById('liveCounters');
+                const projectsEl = document.getElementById('projectsCount');
+                const blocksEl = document.getElementById('blocksCount');
+                const pixelsEl = document.getElementById('pixelsCount');
+
+                const progressTrack = document.getElementById('progressTrack');
                 const progressFill = document.getElementById('progressFill');
                 const progressText = document.getElementById('progressText');
                 const currentPrice = document.getElementById('currentPrice');
                 const urgencyText = document.getElementById('urgencyText');
 
-                if (progressFill) progressFill.style.width = rawPercent + '%';
-                if (progressText) progressText.textContent = `تم بيع ${displayPercent}%`;
+                if (projectsEl) projectsEl.textContent = projectsCount;
+                if (blocksEl) blocksEl.textContent = soldBlocks.toLocaleString('en-US');
+                if (pixelsEl) pixelsEl.textContent = soldPixels.toLocaleString('en-US');
+
+                // إخفاء الشريط تحت 10% وتفعيله تلقائياً عند الوصول إلى 10% فأكثر
+                if (rawPercent >= 10) {
+                    if (liveCounters) liveCounters.style.display = 'none';
+                    if (progressTrack) progressTrack.style.display = 'block';
+                    if (progressFill) progressFill.style.width = rawPercent + '%';
+                    if (progressText) progressText.textContent = `تم بيع ${displayPercent}% | المشاريع المنضمة: ${projectsCount}`;
+                } else {
+                    if (liveCounters) liveCounters.style.display = 'flex';
+                    if (progressTrack) progressTrack.style.display = 'none';
+                }
 
                 if (rawPercent >= 50) {
                     if (currentPrice) currentPrice.textContent = 'المرحلة الحالية: 200 ريال / للبلوك';
