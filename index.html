@@ -289,7 +289,7 @@
             margin: 0 auto;
         }
 
-        /* شبكة المليون بكسل */
+      /* شبكة المليون بكسل بخلفية رمادية ناعمة تبرز الشعارات البيضاء */
         .pixel-grid-container {
             width: 1000px;
             height: 1000px;
@@ -298,19 +298,21 @@
             right: 0;
             transform-origin: top right;
             transition: transform 0.25s ease;
+            background-color: #e9eef3;
             background-image:
-                linear-gradient(to right, #e2e8f0 1px, transparent 1px),
-                linear-gradient(to bottom, #e2e8f0 1px, transparent 1px);
+                linear-gradient(to right, #d2dbe4 1px, transparent 1px),
+                linear-gradient(to bottom, #d2dbe4 1px, transparent 1px);
             background-size: 10px 10px;
         }
 
-        /* تنسيق الإعلانات */
+        /* تنسيق الإعلانات بإطار وظل يبرزها بدون قص المساحة الداخلية */
         .ad-block {
             position: absolute;
             display: block;
             text-decoration: none;
             box-sizing: border-box;
-            border: 1px solid rgba(0,0,0,0.1);
+            border: none;
+            box-shadow: 0 0 0 1px rgba(0, 108, 53, 0.35), 0 2px 5px rgba(0, 0, 0, 0.16);
             transition: transform 0.3s ease, opacity 0.3s ease, z-index 0.3s ease;
             background-color: #ffffff;
             overflow: hidden;
@@ -541,8 +543,11 @@
     </a>
 
     <footer>
+       <footer style="line-height: 1.9;">
         © 2026 الواجهة السعودية. جميع الحقوق محفوظة. <br>
+        برمجة وتطوير: <strong style="color: #2D3748;">خضر بن محمد المؤمن</strong> <br>
         <span class="terms-link" id="openTerms">الشروط والأحكام</span>
+    </footer>
     </footer>
 
     <div class="modal-overlay" id="termsModal">
@@ -653,8 +658,9 @@
                         a.style.height = ad.h + 'px';
                         a.style.right = ad.x + 'px';
                         a.style.top = ad.y + 'px';
-
-                        if (ad.image) {
+			if (ad.bg) a.style.backgroundColor = ad.bg;
+                        
+			if (ad.image) {
                             const img = document.createElement('img');
                             const cleanPath = ad.image.trim();
                             img.src = encodeURI(cleanPath);
