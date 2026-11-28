@@ -4,6 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>الواجهة السعودية - دليل الأعمال الرقمي</title>
+    <!-- استدعاء خط عربي عصري (IBM Plex Sans Arabic) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         /* ---------- الألوان الأساسية والتنسيق العام ---------- */
         :root {
@@ -12,7 +16,9 @@
             --pure-white: #FFFFFF;
             --off-white: #F8F9FA;
             --accent-gold: #C5A059;
-            --dark-text: #2D3748;
+            --gold-soft: #FBF7EE;
+            --dark-text: #1F2937;
+            --muted-text: #6B7280;
         }
 
         html, body {
@@ -25,60 +31,78 @@
         body {
             background-color: var(--off-white);
             color: var(--dark-text);
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'IBM Plex Sans Arabic', 'Segoe UI', Tahoma, sans-serif;
             text-align: center;
         }
 
-        /* ---------- شريط التقدم والتسعير الديناميكي ---------- */
+        button, input {
+            font-family: inherit;
+        }
+
+        /* ---------- 1. شريط التسعير والإحصاءات المدمج (سطر واحد رفيع) ---------- */
         .pricing-banner {
             background-color: var(--pure-white);
             border-bottom: 2px solid var(--saudi-green);
-            padding: 12px 20px;
+            padding: 7px 18px;
             position: sticky;
             top: 0;
             z-index: 1000;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.06);
             direction: rtl;
             box-sizing: border-box;
         }
 
         .banner-content {
-            max-width: 1000px;
+            max-width: 1080px;
             margin: 0 auto;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        .stats-text {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            color: var(--dark-text);
-            font-size: 1.1rem;
+            gap: 10px;
+            flex-wrap: wrap;
         }
 
         .current-price {
             background-color: var(--saudi-green);
             color: var(--pure-white);
-            padding: 4px 14px;
+            padding: 3px 12px;
             border-radius: 6px;
-            font-weight: bold;
+            font-weight: 700;
+            font-size: 0.9rem;
             border: 1px solid var(--accent-gold);
+            white-space: nowrap;
         }
 
-        .urgency-text {
-            color: #E53E3E;
-            font-weight: bold;
-            animation: pulse 2s infinite;
+        .live-counters {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 8px;
+            background-color: #F1F5F9;
+            border: 1px solid #E2E8F0;
+            border-radius: 20px;
+            padding: 3px 12px;
+            font-size: 0.84rem;
+            color: var(--dark-text);
+        }
+
+        .live-counters strong {
+            color: var(--saudi-green);
+        }
+
+        .counter-divider {
+            color: #94A3B8;
         }
 
         .progress-track {
-            width: 100%;
+            flex: 1;
+            min-width: 210px;
+            max-width: 340px;
             background-color: #EDF2F7;
             border-radius: 20px;
             border: 1px solid #CBD5E0;
-            height: 25px;
+            height: 24px;
             position: relative;
             overflow: hidden;
         }
@@ -102,121 +126,246 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-weight: bold;
-            font-size: 0.9rem;
+            font-weight: 700;
+            font-size: 0.8rem;
             color: #000;
             z-index: 2;
-            text-shadow: 1px 1px 2px rgba(255,255,255,0.8);
+            text-shadow: 1px 1px 2px rgba(255,255,255,0.85);
         }
 
-        .live-counters {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 10px;
-            background-color: #EDF2F7;
-            border: 1px solid #CBD5E0;
-            border-radius: 20px;
-            padding: 4px 14px;
-            font-size: 0.9rem;
-            color: var(--dark-text);
+        .urgency-text {
+            color: #7C5B1B;
+            background-color: var(--gold-soft);
+            border: 1px solid rgba(197, 160, 89, 0.45);
+            padding: 3px 10px;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 0.84rem;
+            white-space: nowrap;
         }
 
-        .live-counters strong {
-            color: var(--saudi-green);
-        }
-
-        .counter-divider {
-            color: #A0AEC0;
-        }
-
-        @keyframes pulse {
-            0% { opacity: 1; }
-            50% { opacity: 0.6; }
-            100% { opacity: 1; }
-        }
-
-        /* ---------- تنسيق الهيدر والأعلام ---------- */
+        /* ---------- 2. الهيدر المدمج (سطر واحد أنيق على اللابتوب) ---------- */
         .header-with-flags {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 15px 40px;
-            background-color: var(--saudi-green);
+            padding: 9px 30px;
+            background: linear-gradient(135deg, #005A2B 0%, var(--saudi-green) 60%, #0A7C42 100%);
             color: var(--pure-white);
-            border-bottom: 4px solid var(--accent-gold);
-            margin-bottom: 15px;
+            border-bottom: 3px solid var(--accent-gold);
+            margin-bottom: 10px;
             box-sizing: border-box;
         }
 
         .title-container {
-            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
             flex-grow: 1;
+            flex-wrap: wrap;
         }
 
         .header-with-flags h1 {
             margin: 0;
-            font-size: 2.2rem;
-            text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
+            font-size: 1.55rem;
+            font-weight: 700;
+            letter-spacing: -0.2px;
+            text-shadow: 0 2px 5px rgba(0,0,0,0.22);
+        }
+
+        .header-sep {
+            color: var(--accent-gold);
+            font-weight: 300;
+            font-size: 1.2rem;
+            opacity: 0.85;
         }
 
         .header-with-flags p {
-            margin: 10px 0 0 0;
+            margin: 0;
             color: #E2E8F0;
-            font-size: 1.1rem;
+            font-size: 0.96rem;
+            font-weight: 400;
         }
 
         .saudi-flag-img {
-            width: 70px;
+            width: 46px;
             height: auto;
-            border-radius: 4px;
-            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 3px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.28);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            display: block;
         }
 
-        /* ---------- شريط التصفية التفاعلية للأقسام ---------- */
+        /* شريط السدو الأفقي (يظهر في شاشات الجوال للحفاظ على الهوية) */
+        .mobile-sadu-strip {
+            display: none;
+            width: 100%;
+            height: 14px;
+            margin-bottom: 10px;
+            border-bottom: 2px solid var(--accent-gold);
+            background-color: #7A1C1C;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='16' viewBox='0 0 64 16'%3E%3Crect width='64' height='16' fill='%237A1C1C'/%3E%3Crect y='0' width='64' height='2' fill='%231F2937'/%3E%3Crect y='14' width='64' height='2' fill='%231F2937'/%3E%3Cpolygon points='8,2 16,8 8,14 0,8' fill='%23F8F5EE'/%3E%3Cpolygon points='8,5 12,8 8,11 4,8' fill='%23006C35'/%3E%3Cpolygon points='24,2 32,8 24,14 16,8' fill='%23C5A059'/%3E%3Cpolygon points='24,5 28,8 24,11 20,8' fill='%231F2937'/%3E%3Cpolygon points='40,2 48,8 40,14 32,8' fill='%23F8F5EE'/%3E%3Cpolygon points='40,5 44,8 40,11 36,8' fill='%237A1C1C'/%3E%3Cpolygon points='56,2 64,8 56,14 48,8' fill='%23C5A059'/%3E%3Cpolygon points='56,5 60,8 56,11 52,8' fill='%23006C35'/%3E%3C/svg%3E");
+            background-repeat: repeat-x;
+            background-size: 64px 14px;
+        }
+
+        /* ---------- 3. شريط الأدوات الموحد (البحث + التصنيفات + تبديل العرض) ---------- */
+        .controls-toolbar {
+            max-width: 1000px;
+            margin: 0 auto 10px auto;
+            padding: 0 12px;
+            box-sizing: border-box;
+        }
+
+        .toolbar-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .search-box {
+            position: relative;
+            display: flex;
+            align-items: center;
+            flex: 0 1 255px;
+            min-width: 210px;
+        }
+
+        .search-icon {
+            position: absolute;
+            right: 11px;
+            color: var(--muted-text);
+            font-size: 0.9rem;
+            pointer-events: none;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 6px 34px 6px 32px;
+            border: 1.5px solid #CBD5E1;
+            border-radius: 25px;
+            background-color: var(--pure-white);
+            font-size: 0.88rem;
+            color: var(--dark-text);
+            outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s;
+            box-sizing: border-box;
+        }
+
+        .search-input:focus {
+            border-color: var(--saudi-green);
+            box-shadow: 0 0 0 3px rgba(0, 108, 53, 0.12);
+        }
+
+        .search-clear {
+            position: absolute;
+            left: 8px;
+            background: #E2E8F0;
+            color: #475569;
+            border: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            font-size: 0.9rem;
+            cursor: pointer;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            line-height: 1;
+            padding: 0;
+        }
+
+        .search-clear:hover {
+            background: #CBD5E1;
+            color: #0F172A;
+        }
+
         .filter-bar {
             display: flex;
             justify-content: center;
+            align-items: center;
             flex-wrap: wrap;
-            gap: 10px;
-            margin-bottom: 20px;
-            padding: 0 20px;
-            box-sizing: border-box;
+            gap: 6px;
+            flex: 1 1 auto;
         }
 
         .filter-btn {
             background-color: var(--pure-white);
             color: var(--saudi-green);
-            border: 2px solid var(--saudi-green);
-            padding: 6px 18px;
-            border-radius: 25px;
+            border: 1.5px solid var(--saudi-green);
+            padding: 4px 12px;
+            border-radius: 20px;
             cursor: pointer;
-            font-weight: bold;
-            font-size: 0.95rem;
-            transition: all 0.3s ease;
+            font-weight: 600;
+            font-size: 0.85rem;
+            transition: all 0.2s ease;
         }
 
         .filter-btn:hover, .filter-btn.active {
             background-color: var(--saudi-green);
             color: var(--pure-white);
-            box-shadow: 0 4px 10px rgba(0, 108, 53, 0.3);
+            box-shadow: 0 3px 8px rgba(0, 108, 53, 0.22);
         }
 
-        /* ---------- تخطيط الصفحة الرئيسي ---------- */
+        /* زر التبديل بين اللوحة ووضع الدليل */
+        .view-toggle {
+            display: inline-flex;
+            background-color: #E2E8F0;
+            padding: 3px;
+            border-radius: 22px;
+            gap: 3px;
+            flex-shrink: 0;
+        }
+
+        .view-btn {
+            border: none;
+            background: transparent;
+            color: #475569;
+            padding: 4px 12px;
+            border-radius: 18px;
+            font-size: 0.84rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .view-btn.active {
+            background-color: var(--saudi-green);
+            color: var(--pure-white);
+            box-shadow: 0 2px 6px rgba(0, 108, 53, 0.25);
+        }
+
+        /* مخفي تماماً إلا عند وجود بحث حتى لا يحجز فراغاً فوق الشبكة */
+        .search-status {
+            display: none;
+            margin-top: 6px;
+            font-size: 0.83rem;
+            color: var(--muted-text);
+        }
+
+        .search-status.no-results {
+            color: #B91C1C;
+            font-weight: 600;
+        }
+
+        /* ---------- تخطيط وضع اللوحة (الشبكة) ---------- */
         .main-layout {
             display: flex;
             justify-content: center;
             align-items: flex-start;
-            gap: 20px;
-            padding: 0 20px;
+            gap: 18px;
+            padding: 0 18px;
             box-sizing: border-box;
         }
 
-        /* ---------- الزخارف الجانبية المحدثة ---------- */
         .side-pattern {
-            width: 100px;
+            width: 96px;
             height: 1000px;
             border: 2px solid var(--accent-gold);
             border-radius: 8px;
@@ -245,7 +394,6 @@
             text-shadow: none;
         }
 
-        /* ---------- الحاوية الخارجية وأزرار التكبير العائمة ---------- */
         .grid-outer-wrapper {
             position: relative;
             max-width: 1000px;
@@ -254,30 +402,30 @@
 
         .zoom-controls-wrapper {
             position: sticky;
-            top: 120px;
+            top: 62px;
             z-index: 100;
-            width: 20px;
+            width: 24px;
             height: 0;
-            margin-right: -25px;
+            margin-right: -30px;
             display: flex;
             flex-direction: column;
             gap: 5px;
         }
 
         .zoom-btn-v {
-            width: 20px;
-            height: 25px;
+            width: 24px;
+            height: 26px;
             background-color: var(--pure-white);
             color: var(--saudi-green);
-            border: 2px solid var(--saudi-green);
-            border-radius: 4px;
-            font-size: 0.7rem;
+            border: 1.5px solid var(--saudi-green);
+            border-radius: 5px;
+            font-size: 0.75rem;
             font-weight: bold;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.12);
             transition: all 0.2s;
             padding: 0;
         }
@@ -285,10 +433,9 @@
         .zoom-btn-v:hover {
             background-color: var(--saudi-green);
             color: var(--pure-white);
-            transform: scale(1.1);
+            transform: scale(1.08);
         }
 
-        /* حاوية التمرير للشبكة */
         .grid-scroll-wrapper {
             width: 1000px;
             height: 1000px;
@@ -302,7 +449,6 @@
             -webkit-overflow-scrolling: touch;
         }
 
-        /* حاوية ضبط الأبعاد الحقيقية للشبكة لمنع الخروج خارج حدودها */
         .grid-sizer {
             position: relative;
             width: 1000px;
@@ -311,7 +457,6 @@
             margin: 0 auto;
         }
 
-        /* شبكة المليون بكسل بخلفية رمادية ناعمة تبرز الشعارات البيضاء */
         .pixel-grid-container {
             width: 1000px;
             height: 1000px;
@@ -327,7 +472,6 @@
             background-size: 10px 10px;
         }
 
-        /* تنسيق الإعلانات بإطار وظل يبرزها بدون قص المساحة الداخلية */
         .ad-block {
             position: absolute;
             display: block;
@@ -335,9 +479,10 @@
             box-sizing: border-box;
             border: none;
             box-shadow: 0 0 0 1px rgba(0, 108, 53, 0.35), 0 2px 5px rgba(0, 0, 0, 0.16);
-            transition: transform 0.3s ease, opacity 0.3s ease, box-shadow 0.3s ease, z-index 0.3s ease;
+            transition: transform 0.25s ease, opacity 0.25s ease, box-shadow 0.25s ease, z-index 0.25s ease;
             background-color: #ffffff;
             overflow: hidden;
+            cursor: pointer;
         }
 
         .ad-img {
@@ -361,14 +506,160 @@
             filter: grayscale(100%);
         }
 
+        /* تمييز الشعار عند الانتقال إليه من وضع الدليل */
+        @keyframes locatePulse {
+            0%, 100% { box-shadow: 0 0 0 2px var(--accent-gold), 0 0 16px var(--saudi-green); transform: scale(1.2); }
+            50% { box-shadow: 0 0 0 5px var(--accent-gold), 0 0 24px rgba(197, 160, 89, 0.9); transform: scale(1.3); }
+        }
+
+        .ad-block.ad-highlight {
+            z-index: 25;
+            animation: locatePulse 0.8s ease-in-out 3;
+        }
+
+        /* ---------- وضع الدليل (بطاقات المشاريع) ---------- */
+        .directory-container {
+            display: none;
+            max-width: 1000px;
+            margin: 6px auto 20px auto;
+            padding: 0 12px;
+            box-sizing: border-box;
+        }
+
+        .directory-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(225px, 1fr));
+            gap: 14px;
+            text-align: right;
+        }
+
+        .dir-card {
+            background-color: var(--pure-white);
+            border: 1px solid #E2E8F0;
+            border-top: 3px solid var(--saudi-green);
+            border-radius: 12px;
+            padding: 14px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .dir-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 18px rgba(0, 108, 53, 0.12);
+        }
+
+        .dir-logo-box {
+            width: 100%;
+            height: 105px;
+            border-radius: 8px;
+            border: 1px solid #EDF2F7;
+            background-color: #FFFFFF;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 8px;
+            box-sizing: border-box;
+            margin-bottom: 10px;
+            overflow: hidden;
+        }
+
+        .dir-logo-box img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            display: block;
+        }
+
+        .dir-title {
+            margin: 0 0 8px 0;
+            font-size: 1.02rem;
+            font-weight: 700;
+            color: var(--dark-text);
+            text-align: center;
+        }
+
+        .dir-tags {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 5px;
+            margin-bottom: 12px;
+            flex-grow: 1;
+            align-content: flex-start;
+        }
+
+        .dir-tag {
+            background-color: #ECFDF5;
+            color: var(--saudi-green);
+            border: 1px solid rgba(0, 108, 53, 0.18);
+            padding: 2px 8px;
+            border-radius: 14px;
+            font-size: 0.76rem;
+            font-weight: 600;
+        }
+
+        .dir-actions {
+            display: flex;
+            gap: 6px;
+            margin-top: auto;
+        }
+
+        .dir-visit-btn {
+            flex: 1;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+            background-color: var(--saudi-green);
+            color: var(--pure-white);
+            text-decoration: none;
+            padding: 7px 10px;
+            border-radius: 7px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            transition: background-color 0.2s;
+        }
+
+        .dir-visit-btn:hover {
+            background-color: var(--light-green);
+        }
+
+        .dir-locate-btn {
+            background-color: var(--gold-soft);
+            color: #7C5B1B;
+            border: 1px solid rgba(197, 160, 89, 0.55);
+            padding: 7px 10px;
+            border-radius: 7px;
+            font-size: 0.82rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            white-space: nowrap;
+        }
+
+        .dir-locate-btn:hover {
+            background-color: #F3E8CE;
+        }
+
+        .directory-empty {
+            background-color: var(--pure-white);
+            border: 1px dashed #CBD5E1;
+            border-radius: 12px;
+            padding: 36px 20px;
+            color: var(--muted-text);
+            font-size: 0.96rem;
+        }
+
         /* ---------- مؤشر الإحداثيات (المستكشف) ---------- */
         .coord-tooltip {
             position: absolute;
-            background: rgba(0, 108, 53, 0.9);
+            background: rgba(0, 108, 53, 0.92);
             color: #fff;
             padding: 5px 10px;
             border-radius: 4px;
-            font-size: 0.85rem;
+            font-size: 0.82rem;
             pointer-events: none;
             z-index: 9999;
             direction: rtl;
@@ -381,33 +672,41 @@
         /* ---------- زر الواتساب العائم ---------- */
         .floating-whatsapp {
             position: fixed;
-            bottom: 30px;
-            left: 30px;
+            bottom: 24px;
+            left: 24px;
             background-color: #25D366;
             color: white;
-            padding: 12px 25px;
+            padding: 10px 20px;
             border-radius: 50px;
-            font-size: 1.2rem;
-            font-weight: bold;
+            font-size: 1rem;
+            font-weight: 700;
             text-decoration: none;
-            box-shadow: 0 6px 15px rgba(0,0,0,0.3);
+            box-shadow: 0 6px 18px rgba(0,0,0,0.25);
             z-index: 1500;
             display: flex;
             align-items: center;
-            gap: 10px;
-            transition: transform 0.3s;
+            gap: 8px;
+            transition: transform 0.25s, box-shadow 0.25s;
             border: 2px solid #fff;
         }
 
         .floating-whatsapp:hover {
             transform: scale(1.05);
+            box-shadow: 0 8px 22px rgba(37, 211, 102, 0.4);
         }
 
-        /* ---------- التذييل ونافذة الشروط ---------- */
+        .wa-icon {
+            width: 21px;
+            height: 21px;
+            fill: currentColor;
+            flex-shrink: 0;
+        }
+
+        /* ---------- التذييل والنوافذ المنبثقة ---------- */
         footer {
-            margin: 30px 0 60px 0;
-            font-size: 0.9rem;
-            color: #718096;
+            margin: 26px 0 56px 0;
+            font-size: 0.88rem;
+            color: var(--muted-text);
             line-height: 1.9;
         }
 
@@ -415,7 +714,7 @@
             color: var(--saudi-green);
             text-decoration: underline;
             cursor: pointer;
-            font-weight: bold;
+            font-weight: 700;
         }
 
         .modal-overlay {
@@ -425,22 +724,25 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background-color: rgba(0, 0, 0, 0.7);
+            background-color: rgba(15, 23, 42, 0.65);
+            backdrop-filter: blur(2px);
             z-index: 2000;
             justify-content: center;
             align-items: center;
+            padding: 16px;
+            box-sizing: border-box;
         }
 
         .modal-content {
             background-color: var(--pure-white);
-            padding: 30px;
-            border-radius: 10px;
+            padding: 26px;
+            border-radius: 12px;
             max-width: 600px;
-            width: 90%;
+            width: 100%;
             text-align: right;
             position: relative;
             border: 2px solid var(--accent-gold);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+            box-shadow: 0 14px 32px rgba(0,0,0,0.35);
             box-sizing: border-box;
         }
 
@@ -452,81 +754,223 @@
         }
 
         .modal-content ol {
-            line-height: 1.8;
+            line-height: 1.85;
             color: var(--dark-text);
+            padding-right: 20px;
         }
 
         .close-modal {
             position: absolute;
-            top: 15px;
-            left: 15px;
-            background: none;
+            top: 12px;
+            left: 14px;
+            background: #F1F5F9;
             border: none;
-            font-size: 1.5rem;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            font-size: 1.35rem;
             cursor: pointer;
-            color: #E53E3E;
+            color: #475569;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s, color 0.2s;
+        }
+
+        .close-modal:hover {
+            background: #FEE2E2;
+            color: #DC2626;
+        }
+
+        /* ---------- بطاقة المعاينة المصغرة للشعار (Mini Card) ---------- */
+        .preview-card {
+            max-width: 390px;
+            text-align: center;
+            padding: 26px 22px 22px 22px;
+        }
+
+        .preview-logo-box {
+            width: 136px;
+            height: 136px;
+            margin: 0 auto 14px auto;
+            border-radius: 14px;
+            border: 1.5px solid #E2E8F0;
+            background-color: #FFFFFF;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            padding: 10px;
+            box-sizing: border-box;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+        }
+
+        .preview-logo-box img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            display: block;
+        }
+
+        .preview-title {
+            margin: 0 0 10px 0;
+            font-size: 1.22rem;
+            color: var(--dark-text);
+            font-weight: 700;
+        }
+
+        .preview-tags {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-bottom: 14px;
+        }
+
+        .preview-tag {
+            background-color: #ECFDF5;
+            color: var(--saudi-green);
+            border: 1px solid rgba(0, 108, 53, 0.2);
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .preview-meta {
+            font-size: 0.82rem;
+            color: var(--muted-text);
+            margin-bottom: 18px;
+        }
+
+        .preview-visit-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            width: 100%;
+            padding: 11px 18px;
+            background-color: var(--saudi-green);
+            color: var(--pure-white);
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 0.98rem;
+            box-sizing: border-box;
+            transition: background-color 0.2s, transform 0.2s;
+            border: 1px solid var(--accent-gold);
+        }
+
+        .preview-visit-btn:hover {
+            background-color: var(--light-green);
+            transform: translateY(-1px);
         }
 
         /* ---------- التجاوب مع شاشات الجوال ---------- */
         @media (max-width: 768px) {
-            .pricing-banner { padding: 8px 12px; }
-            .banner-content { gap: 6px; }
-            .live-counters { font-size: 0.8rem; padding: 3px 10px; }
-            .stats-text { flex-direction: column; gap: 5px; text-align: center; }
+            .pricing-banner {
+                position: static;
+                padding: 8px 10px;
+            }
+            .banner-content {
+                justify-content: center;
+                gap: 6px;
+            }
+            .current-price { font-size: 0.84rem; }
+            .urgency-text { font-size: 0.78rem; white-space: normal; }
+            .live-counters { font-size: 0.78rem; padding: 3px 10px; }
+
+            .header-with-flags {
+                padding: 10px 12px;
+                margin-bottom: 0;
+                border-bottom: none;
+            }
+            .title-container {
+                flex-direction: column;
+                gap: 2px;
+            }
+            .header-sep { display: none; }
+            .mobile-sadu-strip { display: block; }
+            .saudi-flag-img { width: 38px; }
+            .header-with-flags h1 { font-size: 1.4rem; }
+            .header-with-flags p { font-size: 0.84rem; }
+
+            .controls-toolbar { padding: 0 10px; margin-bottom: 10px; }
+            .toolbar-row { gap: 8px; }
+            .search-box { flex: 1 1 100%; max-width: 100%; order: 1; }
+            .view-toggle { order: 2; margin: 0 auto; }
+            .filter-bar { flex: 1 1 100%; order: 3; gap: 5px; }
+            .filter-btn { padding: 4px 11px; font-size: 0.82rem; }
+
             .side-pattern { display: none; }
             .main-layout { padding: 0 10px; }
             .grid-outer-wrapper { width: 100%; max-width: 100%; }
 
-            /* شريط تكبير أفقي مرتب فوق الشبكة في الجوال */
             .zoom-controls-wrapper {
                 position: static;
                 width: auto;
                 height: auto;
-                margin: 0 0 8px 0;
+                margin: 0 0 6px 0;
                 flex-direction: row;
                 justify-content: flex-start;
                 gap: 8px;
             }
-            .zoom-btn-v { width: 34px; height: 32px; font-size: 0.95rem; }
+            .zoom-btn-v { width: 34px; height: 30px; font-size: 0.92rem; }
 
             .grid-scroll-wrapper {
                 width: 100%;
                 height: auto;
-                max-height: 70vh;
+                max-height: 72vh;
                 box-sizing: border-box;
             }
 
-            .floating-whatsapp { bottom: 20px; left: 20px; padding: 10px 20px; font-size: 1rem; }
-            .coord-tooltip { display: none !important; }
+            .directory-grid {
+                grid-template-columns: repeat(auto-fill, minmax(155px, 1fr));
+                gap: 10px;
+            }
+            .dir-card { padding: 10px; }
+            .dir-logo-box { height: 85px; }
+            .dir-actions { flex-direction: column; }
 
-            /* تعديلات الهيدر والأعلام للجوال */
-            .header-with-flags { padding: 15px 15px; }
-            .saudi-flag-img { width: 45px; }
-            .header-with-flags h1 { font-size: 1.6rem; }
-            .header-with-flags p { font-size: 0.95rem; }
+            .floating-whatsapp {
+                bottom: 18px;
+                left: 16px;
+                width: 52px;
+                height: 52px;
+                padding: 0;
+                border-radius: 50%;
+                justify-content: center;
+            }
+            .floating-whatsapp .wa-text { display: none; }
+            .wa-icon { width: 26px; height: 26px; }
+
+            .coord-tooltip { display: none !important; }
         }
     </style>
 </head>
 <body>
 
+    <!-- 1. الشريط العلوي المدمج (صف واحد على اللابتوب) -->
     <div class="pricing-banner">
         <div class="banner-content">
-            <div class="stats-text">
-                <div><span class="current-price" id="currentPrice">المرحلة الحالية: 100 ريال / للبلوك</span></div>
-                <div class="urgency-text" id="urgencyText">🔥 انتبه: السعر سيرتفع للضعف (200 ريال) عند 50%</div>
-            </div>
+            <span class="current-price" id="currentPrice">المرحلة الحالية: 100 ريال / للبلوك</span>
+
             <div class="live-counters" id="liveCounters">
                 <span>المشاريع المنضمة: <strong id="projectsCount">0</strong></span>
                 <span class="counter-divider">|</span>
-                <span>المساحة المحجوزة: <strong id="blocksCount">0</strong> بلوك (<span id="pixelsCount">0</span> بكسل)</span>
+                <span>المحجوز: <strong id="blocksCount">0</strong> بلوك (<span id="pixelsCount">0</span> بكسل)</span>
             </div>
+
             <div class="progress-track" id="progressTrack" style="display: none;">
                 <div class="progress-fill" id="progressFill" style="width: 0%;"></div>
                 <div class="progress-text" id="progressText">تم بيع 0%</div>
             </div>
+
+            <div class="urgency-text" id="urgencyText">يتضاعف السعر إلى 200 ريال عند 50%</div>
         </div>
     </div>
 
+    <!-- 2. الهيدر المدمج -->
     <header class="header-with-flags">
         <div class="flag-container">
             <img src="https://flagcdn.com/w160/sa.png" alt="علم السعودية" class="saudi-flag-img">
@@ -534,7 +978,8 @@
 
         <div class="title-container">
             <h1>الواجهة السعودية</h1>
-            <p>دليل الأعمال الرقمي الأبرز | مساحتك الإعلانية الدائمة</p>
+            <span class="header-sep" aria-hidden="true">|</span>
+            <p>دليل الأعمال الرقمي الأبرز • مساحتك الإعلانية الدائمة</p>
         </div>
 
         <div class="flag-container">
@@ -542,12 +987,32 @@
         </div>
     </header>
 
-    <!-- شريط التصفية: يبني نفسه تلقائياً ويعرض الأقسام التي تحتوي على إعلانات فقط -->
-    <div class="filter-bar" id="filterBar">
-        <button class="filter-btn active" data-filter="all">الكل</button>
+    <!-- شريط السدو الأفقي للجوال -->
+    <div class="mobile-sadu-strip" aria-hidden="true"></div>
+
+    <!-- 3. شريط الأدوات الموحد: البحث + التصنيفات + التبديل بين اللوحة والدليل -->
+    <div class="controls-toolbar">
+        <div class="toolbar-row">
+            <div class="search-box">
+                <span class="search-icon">🔍</span>
+                <input type="text" id="searchInput" class="search-input" placeholder="ابحث بالاسم، المدينة، أو النشاط..." autocomplete="off">
+                <button type="button" id="searchClear" class="search-clear" title="مسح البحث">×</button>
+            </div>
+
+            <div class="filter-bar" id="filterBar">
+                <button class="filter-btn active" data-filter="all">الكل</button>
+            </div>
+
+            <div class="view-toggle" role="tablist" aria-label="طريقة العرض">
+                <button type="button" id="btnViewGrid" class="view-btn active" role="tab" aria-selected="true">🗺️ اللوحة</button>
+                <button type="button" id="btnViewDirectory" class="view-btn" role="tab" aria-selected="false">📋 الدليل</button>
+            </div>
+        </div>
+        <div class="search-status" id="searchStatus"></div>
     </div>
 
-    <div class="main-layout">
+    <!-- وضع اللوحة التفاعلية -->
+    <div class="main-layout" id="boardLayout">
         <aside class="side-pattern sadu-right"></aside>
 
         <div class="grid-outer-wrapper">
@@ -559,7 +1024,6 @@
 
             <div class="grid-scroll-wrapper" id="gridScrollWrapper">
                 <div class="grid-sizer" id="gridSizer">
-                    <!-- الشبكة أصبحت فارغة، الكود سيرسم الإعلانات هنا تلقائياً -->
                     <main class="pixel-grid-container" id="pixelGrid"></main>
                 </div>
             </div>
@@ -568,19 +1032,44 @@
         <aside class="side-pattern ahsa-left"></aside>
     </div>
 
-    <a href="https://wa.me/966599156610?text=أهلاً،%20أرغب%20بحجز%20مساحة%20إعلانية%20في%20الواجهة%20السعودية" target="_blank" class="floating-whatsapp">
-        💬 احجز مساحتك الآن
+    <!-- وضع الدليل (بطاقات المشاريع) -->
+    <section class="directory-container" id="directoryContainer" aria-label="دليل المشاريع">
+        <div class="directory-grid" id="directoryGrid"></div>
+    </section>
+
+    <a href="https://wa.me/966599156610?text=أهلاً،%20أرغب%20بحجز%20مساحة%20إعلانية%20في%20الواجهة%20السعودية" target="_blank" rel="noopener noreferrer" class="floating-whatsapp" title="احجز مساحتك الآن عبر واتساب" aria-label="احجز مساحتك الآن عبر واتساب">
+        <svg class="wa-icon" viewBox="0 0 32 32" aria-hidden="true">
+            <path d="M16.002 3.2c-7.06 0-12.8 5.74-12.8 12.8 0 2.26.59 4.46 1.71 6.4L3.2 28.8l6.58-1.72c1.88 1.02 4 1.56 6.22 1.56 7.06 0 12.8-5.74 12.8-12.8s-5.74-12.64-12.8-12.64zm0 23.3c-1.96 0-3.88-.52-5.56-1.52l-.4-.24-3.9 1.02 1.04-3.8-.26-.42a10.63 10.63 0 0 1-1.64-5.68c0-5.88 4.78-10.66 10.66-10.66 5.88 0 10.66 4.78 10.66 10.66 0 5.88-4.78 10.64-10.6 10.64zm5.84-7.96c-.32-.16-1.9-.94-2.2-1.04-.3-.1-.52-.16-.74.16-.22.32-.84 1.04-1.04 1.26-.18.22-.38.24-.7.08-.32-.16-1.36-.5-2.58-1.6-.96-.86-1.6-1.92-1.78-2.24-.18-.32-.02-.5.14-.66.14-.14.32-.38.48-.56.16-.18.22-.32.32-.54.1-.22.06-.4-.02-.56-.08-.16-.74-1.78-1.02-2.44-.26-.64-.54-.56-.74-.56h-.64c-.22 0-.56.08-.86.4-.3.32-1.14 1.12-1.14 2.72s1.16 3.16 1.32 3.38c.16.22 2.28 3.48 5.54 4.88.78.34 1.38.54 1.86.68.78.24 1.48.2 2.04.12.62-.1 1.9-.78 2.16-1.52.26-.74.26-1.38.18-1.52-.08-.14-.3-.22-.62-.38z"/>
+        </svg>
+        <span class="wa-text">احجز مساحتك الآن</span>
     </a>
 
     <footer>
         © 2026 الواجهة السعودية. جميع الحقوق محفوظة. <br>
-        برمجة وتطوير: <strong style="color: #2D3748;">خضر بن محمد بن علي المؤمن</strong> <br>
+        برمجة وتطوير: <strong style="color: #1F2937;">[اكتب اسمك الرباعي هنا]</strong> <br>
         <span class="terms-link" id="openTerms">الشروط والأحكام</span>
     </footer>
 
+    <!-- نافذة معاينة المشروع المصغرة (Mini Card) -->
+    <div class="modal-overlay" id="adPreviewModal">
+        <div class="modal-content preview-card">
+            <button class="close-modal" id="closePreview" aria-label="إغلاق">×</button>
+            <div class="preview-logo-box" id="previewLogoBox">
+                <img id="previewImg" src="" alt="">
+            </div>
+            <h3 class="preview-title" id="previewTitle"></h3>
+            <div class="preview-tags" id="previewTags"></div>
+            <div class="preview-meta" id="previewMeta"></div>
+            <a id="previewVisitLink" href="#" target="_blank" rel="noopener noreferrer" class="preview-visit-btn">
+                زيارة الموقع / الحساب ↗
+            </a>
+        </div>
+    </div>
+
+    <!-- نافذة الشروط والأحكام -->
     <div class="modal-overlay" id="termsModal">
         <div class="modal-content">
-            <button class="close-modal" id="closeTerms">×</button>
+            <button class="close-modal" id="closeTerms" aria-label="إغلاق">×</button>
             <h2>الشروط والأحكام</h2>
             <ol>
                 <li><strong>سياسة المحتوى:</strong> يلتزم المعلن بعدم نشر أي شعار أو رابط يخالف الأنظمة السعودية. يحق للإدارة إزالة الإعلان المخالف فوراً.</li>
@@ -600,9 +1089,27 @@
             const grid = document.getElementById('pixelGrid');
             const gridSizer = document.getElementById('gridSizer');
             const scrollWrapper = document.getElementById('gridScrollWrapper');
+            const boardLayout = document.getElementById('boardLayout');
+            const directoryContainer = document.getElementById('directoryContainer');
+            const directoryGrid = document.getElementById('directoryGrid');
             const filterBar = document.getElementById('filterBar');
+            const searchInput = document.getElementById('searchInput');
+            const searchClear = document.getElementById('searchClear');
+            const searchStatus = document.getElementById('searchStatus');
 
-            // القائمة المعتمدة للتصنيفات الرئيسية بالترتيب
+            const btnViewGrid = document.getElementById('btnViewGrid');
+            const btnViewDirectory = document.getElementById('btnViewDirectory');
+
+            // عناصر بطاقة المعاينة (Mini Card)
+            const adPreviewModal = document.getElementById('adPreviewModal');
+            const closePreviewBtn = document.getElementById('closePreview');
+            const previewLogoBox = document.getElementById('previewLogoBox');
+            const previewImg = document.getElementById('previewImg');
+            const previewTitle = document.getElementById('previewTitle');
+            const previewTags = document.getElementById('previewTags');
+            const previewMeta = document.getElementById('previewMeta');
+            const previewVisitLink = document.getElementById('previewVisitLink');
+
             const MAIN_CATEGORIES = [
                 'عقارات ومقاولات',
                 'تجارة ومتاجر',
@@ -616,7 +1123,90 @@
                 'أنشطة أخرى'
             ];
 
-            // حساب المقياس المناسب للشاشة بحيث تمتلئ حاوية الجوال بدون فراغات جانبية
+            let activeFilter = 'all';
+            let searchQuery = '';
+            let currentView = 'grid'; // 'grid' | 'directory'
+            const processedAds = [];
+
+            function normalizeArabic(text) {
+                return (text || '')
+                    .toLowerCase()
+                    .trim()
+                    .replace(/[أإآ]/g, 'ا')
+                    .replace(/ة/g, 'ه')
+                    .replace(/ى/g, 'ي')
+                    .replace(/[\u064B-\u065F]/g, '');
+            }
+
+            // دالة موحدة لإنشاء عنصر الصورة مع معالجة اختلاف حروف الامتداد
+            function createAdImage(ad, className) {
+                if (!ad.image) return null;
+                const img = document.createElement('img');
+                const cleanPath = ad.image.trim();
+                img.src = encodeURI(cleanPath);
+                img.alt = ad.name || '';
+                if (className) img.className = className;
+                img.loading = 'lazy';
+                img.decoding = 'async';
+
+                const fallbacks = [];
+                const extMatch = cleanPath.match(/\.([a-zA-Z0-9]+)$/);
+                if (extMatch) {
+                    const ext = extMatch[1];
+                    const base = cleanPath.slice(0, -ext.length);
+                    const candidates = [ext.toLowerCase(), ext.toUpperCase(), 'png', 'PNG', 'jpg', 'JPG', 'jpeg', 'JPEG', 'webp'];
+                    candidates.forEach(c => {
+                        if (c !== ext && !fallbacks.includes(base + c)) {
+                            fallbacks.push(base + c);
+                        }
+                    });
+                }
+
+                let attempt = 0;
+                img.onerror = () => {
+                    if (attempt < fallbacks.length) {
+                        img.src = encodeURI(fallbacks[attempt++]);
+                    } else {
+                        img.style.display = 'none';
+                    }
+                };
+                return img;
+            }
+
+            // فتح بطاقة المعاينة
+            function openAdPreview(ad, tagsList, resolvedImgSrc) {
+                previewTitle.textContent = ad.name || 'مشروع مشارك';
+                previewVisitLink.href = ad.link || '#';
+
+                previewLogoBox.style.backgroundColor = ad.bg || '#FFFFFF';
+                if (resolvedImgSrc) {
+                    previewImg.src = resolvedImgSrc;
+                    previewImg.alt = ad.name || '';
+                    previewImg.style.display = 'block';
+                } else {
+                    previewImg.style.display = 'none';
+                }
+
+                previewTags.innerHTML = '';
+                tagsList.forEach(tag => {
+                    const span = document.createElement('span');
+                    span.className = 'preview-tag';
+                    span.textContent = tag;
+                    previewTags.appendChild(span);
+                });
+
+                const blocks = +(((Number(ad.w) || 0) * (Number(ad.h) || 0)) / 100).toFixed(1);
+                previewMeta.textContent = `المساحة: ${blocks} بلوك • الإحداثيات: يمين ${ad.x}، أعلى ${ad.y}`;
+                adPreviewModal.style.display = 'flex';
+            }
+
+            function closeAdPreview() {
+                adPreviewModal.style.display = 'none';
+            }
+
+            closePreviewBtn.addEventListener('click', closeAdPreview);
+
+            // حساب المقياس المناسب للشاشة
             function getBaseScale() {
                 if (window.innerWidth <= 768) {
                     const innerWidth = scrollWrapper.clientWidth || (window.innerWidth - 26);
@@ -628,7 +1218,6 @@
             let baseScale = getBaseScale();
             let currentScale = baseScale;
 
-            // تطبيق التكبير مع ضبط أبعاد الحاوية الحقيقية لمنع التمرير خارج الشبكة
             function applyScale(scale) {
                 currentScale = scale;
                 const scaledSize = Math.round(1000 * scale);
@@ -640,6 +1229,7 @@
             applyScale(baseScale);
 
             window.addEventListener('resize', () => {
+                if (currentView !== 'grid') return;
                 const wasAtBase = Math.abs(currentScale - baseScale) < 0.02;
                 baseScale = getBaseScale();
                 if (wasAtBase || currentScale < baseScale) {
@@ -647,26 +1237,61 @@
                 }
             });
 
-            // مجموعة لحفظ الأقسام النشطة التي تحتوي على إعلان واحد على الأقل
+            // التبديل بين وضع اللوحة ووضع الدليل
+            function switchView(mode) {
+                currentView = mode;
+                if (mode === 'directory') {
+                    boardLayout.style.display = 'none';
+                    directoryContainer.style.display = 'block';
+                    btnViewGrid.classList.remove('active');
+                    btnViewGrid.setAttribute('aria-selected', 'false');
+                    btnViewDirectory.classList.add('active');
+                    btnViewDirectory.setAttribute('aria-selected', 'true');
+                } else {
+                    directoryContainer.style.display = 'none';
+                    boardLayout.style.display = 'flex';
+                    btnViewDirectory.classList.remove('active');
+                    btnViewDirectory.setAttribute('aria-selected', 'false');
+                    btnViewGrid.classList.add('active');
+                    btnViewGrid.setAttribute('aria-selected', 'true');
+                    // إعادة ضبط المقياس لو تغير حجم الشاشة أثناء التواجد في وضع الدليل
+                    baseScale = getBaseScale();
+                    applyScale(currentScale < baseScale ? baseScale : currentScale);
+                }
+                applyFilters();
+            }
+
+            btnViewGrid.addEventListener('click', () => switchView('grid'));
+            btnViewDirectory.addEventListener('click', () => switchView('directory'));
+
+            // الانتقال من بطاقة الدليل إلى موقع الشعار على اللوحة وتمييزه
+            function locateAdOnBoard(index) {
+                switchView('grid');
+                const targetEl = grid.querySelector(`.ad-block[data-index="${index}"]`);
+                if (targetEl) {
+                    targetEl.classList.remove('dimmed', 'ad-highlight');
+                    void targetEl.offsetWidth; // إعادة تشغيل الأنيميشن
+                    targetEl.classList.add('ad-highlight');
+                    targetEl.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'center' });
+                    setTimeout(() => targetEl.classList.remove('ad-highlight'), 2600);
+                }
+            }
+
             const activeCategories = new Set();
 
-            // 1. القارئ الآلي: رسم الإعلانات وعرض الشعارات كصور فعلية
+            // 1. بناء اللوحة والدليل معاً من ads.js
             function renderAds() {
                 grid.innerHTML = '';
+                directoryGrid.innerHTML = '';
                 activeCategories.clear();
+                processedAds.length = 0;
 
                 if (typeof adsData !== 'undefined' && Array.isArray(adsData)) {
-                    adsData.forEach(ad => {
-                        const a = document.createElement('a');
-                        a.href = ad.link;
-                        a.target = '_blank';
-                        a.className = 'ad-block';
-
+                    adsData.forEach((ad, index) => {
                         let tagsList = Array.isArray(ad.tags)
                             ? ad.tags.map(t => t.trim()).filter(Boolean)
                             : (ad.category ? [ad.category.trim()] : []);
 
-                        // إذا لم يرتبط الشعار بأي تصنيف رئيسي، يُصنّف تلقائياً تحت "أنشطة أخرى"
                         const hasMainCategory = tagsList.some(t => MAIN_CATEGORIES.includes(t));
                         if (!hasMainCategory) {
                             tagsList.push('أنشطة أخرى');
@@ -678,58 +1303,160 @@
                             }
                         });
 
-                        a.setAttribute('data-tags', tagsList.join('|'));
-                        a.setAttribute('data-name', ad.name || '');
+                        const normalizedSearch = normalizeArabic(`${ad.name || ''} ${tagsList.join(' ')}`);
 
-                        a.title = ad.name;
+                        // أ) رسم الإعلان على اللوحة
+                        const a = document.createElement('a');
+                        a.href = ad.link;
+                        a.target = '_blank';
+                        a.rel = 'noopener noreferrer';
+                        a.className = 'ad-block';
+                        a.setAttribute('data-index', index);
+                        a.setAttribute('data-tags', tagsList.join('|'));
+                        a.setAttribute('data-search', normalizedSearch);
+                        a.title = `${ad.name} — اضغط للمعاينة`;
                         a.style.width = ad.w + 'px';
                         a.style.height = ad.h + 'px';
                         a.style.right = ad.x + 'px';
                         a.style.top = ad.y + 'px';
                         if (ad.bg) a.style.backgroundColor = ad.bg;
 
-                        if (ad.image) {
-                            const img = document.createElement('img');
-                            const cleanPath = ad.image.trim();
-                            img.src = encodeURI(cleanPath);
-                            img.alt = ad.name || '';
-                            img.className = 'ad-img';
-                            img.loading = 'eager';
-                            img.decoding = 'async';
+                        const gridImg = createAdImage(ad, 'ad-img');
+                        if (gridImg) a.appendChild(gridImg);
 
-                            // محاولة بديلة تلقائية لو اختلف حرف الامتداد على سيرفر GitHub
-                            const fallbacks = [];
-                            const extMatch = cleanPath.match(/\.([a-zA-Z0-9]+)$/);
-                            if (extMatch) {
-                                const ext = extMatch[1];
-                                const base = cleanPath.slice(0, -ext.length);
-                                const candidates = [ext.toLowerCase(), ext.toUpperCase(), 'png', 'PNG', 'jpg', 'JPG', 'jpeg', 'JPEG', 'webp'];
-                                candidates.forEach(c => {
-                                    if (c !== ext && !fallbacks.includes(base + c)) {
-                                        fallbacks.push(base + c);
-                                    }
-                                });
-                            }
-
-                            let attempt = 0;
-                            img.onerror = () => {
-                                if (attempt < fallbacks.length) {
-                                    img.src = encodeURI(fallbacks[attempt++]);
-                                } else {
-                                    img.style.display = 'none';
-                                }
-                            };
-
-                            a.appendChild(img);
-                        }
+                        a.addEventListener('click', (e) => {
+                            e.preventDefault();
+                            const resolvedSrc = (gridImg && gridImg.style.display !== 'none') ? gridImg.src : '';
+                            openAdPreview(ad, tagsList, resolvedSrc);
+                        });
 
                         grid.appendChild(a);
+
+                        // ب) بناء بطاقة المشروع لوضع الدليل
+                        const card = document.createElement('article');
+                        card.className = 'dir-card';
+                        card.setAttribute('data-tags', tagsList.join('|'));
+                        card.setAttribute('data-search', normalizedSearch);
+
+                        const logoBox = document.createElement('div');
+                        logoBox.className = 'dir-logo-box';
+                        if (ad.bg) logoBox.style.backgroundColor = ad.bg;
+                        const dirImg = createAdImage(ad, '');
+                        if (dirImg) logoBox.appendChild(dirImg);
+
+                        const titleEl = document.createElement('h3');
+                        titleEl.className = 'dir-title';
+                        titleEl.textContent = ad.name || 'مشروع مشارك';
+
+                        const tagsWrap = document.createElement('div');
+                        tagsWrap.className = 'dir-tags';
+                        tagsList.forEach(tag => {
+                            const span = document.createElement('span');
+                            span.className = 'dir-tag';
+                            span.textContent = tag;
+                            tagsWrap.appendChild(span);
+                        });
+
+                        const actionsWrap = document.createElement('div');
+                        actionsWrap.className = 'dir-actions';
+
+                        const visitLink = document.createElement('a');
+                        visitLink.className = 'dir-visit-btn';
+                        visitLink.href = ad.link || '#';
+                        visitLink.target = '_blank';
+                        visitLink.rel = 'noopener noreferrer';
+                        visitLink.textContent = 'زيارة الموقع ↗';
+
+                        const locateBtn = document.createElement('button');
+                        locateBtn.type = 'button';
+                        locateBtn.className = 'dir-locate-btn';
+                        locateBtn.textContent = '📍 باللوحة';
+                        locateBtn.title = 'عرض موقع المشروع على اللوحة';
+                        locateBtn.addEventListener('click', () => locateAdOnBoard(index));
+
+                        actionsWrap.appendChild(visitLink);
+                        actionsWrap.appendChild(locateBtn);
+
+                        card.appendChild(logoBox);
+                        card.appendChild(titleEl);
+                        card.appendChild(tagsWrap);
+                        card.appendChild(actionsWrap);
+                        directoryGrid.appendChild(card);
+
+                        processedAds.push({ gridEl: a, cardEl: card, tagsList, normalizedSearch });
                     });
                 }
             }
             renderAds();
 
-            // 2. بناء شريط التصفية الذكي (يعرض الأقسام التي فيها إعلانات فقط)
+            // تطبيق الفلترة والبحث على الوضعين معاً
+            function applyFilters() {
+                const normalizedQuery = normalizeArabic(searchQuery);
+                let matchedCount = 0;
+
+                processedAds.forEach(item => {
+                    const matchesCategory = (activeFilter === 'all' || item.tagsList.includes(activeFilter));
+                    const matchesSearch = (!normalizedQuery || item.normalizedSearch.includes(normalizedQuery));
+                    const isMatch = matchesCategory && matchesSearch;
+
+                    if (isMatch) {
+                        item.gridEl.classList.remove('dimmed');
+                        item.cardEl.style.display = 'flex';
+                        matchedCount++;
+                    } else {
+                        item.gridEl.classList.add('dimmed');
+                        item.cardEl.style.display = 'none';
+                    }
+                });
+
+                // رسالة عدم وجود نتائج في وضع الدليل
+                let emptyMsg = directoryContainer.querySelector('.directory-empty');
+                if (currentView === 'directory' && matchedCount === 0) {
+                    if (!emptyMsg) {
+                        emptyMsg = document.createElement('div');
+                        emptyMsg.className = 'directory-empty';
+                        emptyMsg.textContent = 'لا توجد مشاريع مطابقة لخيارات البحث والتصفية الحالية.';
+                        directoryContainer.appendChild(emptyMsg);
+                    }
+                    emptyMsg.style.display = 'block';
+                } else if (emptyMsg) {
+                    emptyMsg.style.display = 'none';
+                }
+
+                // إظهار سطر حالة البحث فقط عند الكتابة في خانة البحث
+                if (normalizedQuery) {
+                    searchStatus.style.display = 'block';
+                    if (matchedCount === 0) {
+                        searchStatus.textContent = 'لا توجد مشاريع مطابقة لبحثك حالياً.';
+                        searchStatus.className = 'search-status no-results';
+                    } else {
+                        searchStatus.textContent = currentView === 'directory'
+                            ? `تم العثور على ${matchedCount} مشروع مطابق.`
+                            : `تم العثور على ${matchedCount} مشروع مطابق (مُبرز على اللوحة).`;
+                        searchStatus.className = 'search-status';
+                    }
+                } else {
+                    searchStatus.style.display = 'none';
+                    searchStatus.textContent = '';
+                    searchStatus.className = 'search-status';
+                }
+            }
+
+            searchInput.addEventListener('input', () => {
+                searchQuery = searchInput.value;
+                searchClear.style.display = searchQuery.length > 0 ? 'flex' : 'none';
+                applyFilters();
+            });
+
+            searchClear.addEventListener('click', () => {
+                searchInput.value = '';
+                searchQuery = '';
+                searchClear.style.display = 'none';
+                applyFilters();
+                searchInput.focus();
+            });
+
+            // 2. بناء شريط التصفية الذكي
             function buildFilterBar() {
                 filterBar.innerHTML = '';
 
@@ -754,16 +1481,8 @@
                     btn.addEventListener('click', () => {
                         filterBtns.forEach(b => b.classList.remove('active'));
                         btn.classList.add('active');
-                        const filterValue = btn.getAttribute('data-filter');
-                        const adBlocks = document.querySelectorAll('.ad-block');
-                        adBlocks.forEach(ad => {
-                            const adTags = (ad.getAttribute('data-tags') || '').split('|');
-                            if (filterValue === 'all' || adTags.includes(filterValue)) {
-                                ad.classList.remove('dimmed');
-                            } else {
-                                ad.classList.add('dimmed');
-                            }
-                        });
+                        activeFilter = btn.getAttribute('data-filter');
+                        applyFilters();
                     });
                 });
             }
@@ -802,12 +1521,11 @@
                 if (blocksEl) blocksEl.textContent = soldBlocks.toLocaleString('en-US');
                 if (pixelsEl) pixelsEl.textContent = soldPixels.toLocaleString('en-US');
 
-                // إخفاء الشريط تحت 10% وتفعيله تلقائياً عند الوصول إلى 10% فأكثر
                 if (rawPercent >= 10) {
                     if (liveCounters) liveCounters.style.display = 'none';
                     if (progressTrack) progressTrack.style.display = 'block';
                     if (progressFill) progressFill.style.width = rawPercent + '%';
-                    if (progressText) progressText.textContent = `تم بيع ${displayPercent}% | المشاريع المنضمة: ${projectsCount}`;
+                    if (progressText) progressText.textContent = `تم بيع ${displayPercent}% | المشاريع: ${projectsCount}`;
                 } else {
                     if (liveCounters) liveCounters.style.display = 'flex';
                     if (progressTrack) progressTrack.style.display = 'none';
@@ -815,7 +1533,7 @@
 
                 if (rawPercent >= 50) {
                     if (currentPrice) currentPrice.textContent = 'المرحلة الحالية: 200 ريال / للبلوك';
-                    if (urgencyText) urgencyText.textContent = '🔥 تم تجاوز 50%! احجز مساحتك قبل نفاد اللوحة';
+                    if (urgencyText) urgencyText.textContent = 'تم تجاوز 50% — احجز قبل نفاد اللوحة';
                 }
             }
             updateProgress();
@@ -843,11 +1561,22 @@
                 applyScale(baseScale);
             });
 
-            // 5. نافذة الشروط والأحكام
+            // 5. نافذة الشروط والأحكام وإغلاق النوافذ
             const termsModal = document.getElementById('termsModal');
             document.getElementById('openTerms').addEventListener('click', () => termsModal.style.display = 'flex');
             document.getElementById('closeTerms').addEventListener('click', () => termsModal.style.display = 'none');
-            window.addEventListener('click', (e) => { if (e.target === termsModal) termsModal.style.display = 'none'; });
+
+            window.addEventListener('click', (e) => {
+                if (e.target === termsModal) termsModal.style.display = 'none';
+                if (e.target === adPreviewModal) closeAdPreview();
+            });
+
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') {
+                    termsModal.style.display = 'none';
+                    closeAdPreview();
+                }
+            });
 
             // 6. رادار الإحداثيات (المستكشف) الذكي
             const tooltip = document.createElement('div');
