@@ -1276,6 +1276,15 @@
             .coord-tooltip { display: none !important; }
         }
     </style>
+
+    <!-- Google Analytics 4 -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-7XECPQ0JE3"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-7XECPQ0JE3');
+    </script>
 </head>
 <body>
 
@@ -1393,7 +1402,7 @@
 
     <footer>
         © 2026 الواجهة السعودية. جميع الحقوق محفوظة. <br>
-        برمجة وتطوير: <strong style="color: #1F2937;">خضر بن محمد بن علي المؤمن</strong> <br>
+        برمجة وتطوير: <strong style="color: #1F2937;">[اكتب اسمك الرباعي هنا]</strong> <br>
         <span class="terms-link" id="openTerms">الشروط والأحكام والخصوصية</span>
         <span class="terms-link" id="openHowToFooter">أحجام المساحات وكيفية الحجز</span>
         <div class="footer-disclaimer">منصة إعلانية تجارية خاصة ولا تتبع لأي جهة حكومية.</div>
@@ -2065,6 +2074,56 @@
             grid.addEventListener('mouseleave', () => {
                 tooltip.style.display = 'none';
             });
+        });
+
+        // 8. تتبع نقرات الشعارات (اللوحة + الدليل) وأزرار الحجز عبر Google Analytics 4
+        function trackEvent(eventName, params) {
+            if (typeof gtag === 'function') {
+                gtag('event', eventName, params);
+            }
+        }
+
+        document.addEventListener('click', (e) => {
+            const previewBtn = e.target.closest('#previewVisitLink');
+            if (previewBtn) {
+                const titleEl = document.getElementById('previewTitle');
+                trackEvent('ad_click', {
+                    ad_name: titleEl ? titleEl.textContent.trim() : 'غير معروف',
+                    click_source: 'board_preview',
+                    link_url: previewBtn.href
+                });
+                return;
+            }
+
+            const dirBtn = e.target.closest('.dir-visit-btn');
+            if (dirBtn) {
+                const card = dirBtn.closest('.dir-card');
+                const titleEl = card ? card.querySelector('.dir-title') : null;
+                trackEvent('ad_click', {
+                    ad_name: titleEl ? titleEl.textContent.trim() : 'غير معروف',
+                    click_source: 'directory',
+                    link_url: dirBtn.href
+                });
+                return;
+            }
+
+            const spotBtn = e.target.closest('#spotWhatsappLink');
+            if (spotBtn) {
+                const coordsEl = document.getElementById('spotCoordsText');
+                trackEvent('booking_click', {
+                    booking_source: 'grid_spot',
+                    spot_coords: coordsEl ? coordsEl.textContent.trim() : ''
+                });
+                return;
+            }
+
+            const floatingWa = e.target.closest('.floating-whatsapp');
+            const howToWa = e.target.closest('#howToModal .preview-visit-btn');
+            if (floatingWa || howToWa) {
+                trackEvent('booking_click', {
+                    booking_source: floatingWa ? 'floating_button' : 'how_to_modal'
+                });
+            }
         });
     </script>
 </body>
