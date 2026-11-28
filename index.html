@@ -398,14 +398,15 @@
             display: flex;
             justify-content: center;
             align-items: flex-start;
-            gap: 18px;
-            padding: 0 18px;
+            gap: 14px;
+            padding: 0 12px;
             box-sizing: border-box;
         }
 
         .side-pattern {
-            width: 96px;
+            width: 88px;
             height: 1000px;
+            margin-top: 26px;
             border: 2px solid var(--accent-gold);
             border-radius: 8px;
             display: flex;
@@ -433,46 +434,47 @@
             text-shadow: none;
         }
 
+        /* تخطيط شبكي يفصل عمود الأزرار عن الشبكة تماماً */
         .grid-outer-wrapper {
-            position: relative;
-            max-width: 1000px;
+            display: grid;
+            grid-template-columns: 28px auto;
+            grid-template-rows: auto auto;
+            column-gap: 6px;
+            row-gap: 6px;
+            align-items: start;
+            max-width: 1044px;
             box-sizing: border-box;
         }
 
-        /* شريط التلميح وأزرار التكبير */
-        .grid-top-bar {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 6px;
-        }
-
         .grid-click-hint {
+            grid-column: 2;
+            grid-row: 1;
             font-size: 0.8rem;
             color: var(--muted-text);
             text-align: right;
+            line-height: 20px;
         }
 
         .zoom-controls-wrapper {
+            grid-column: 1;
+            grid-row: 2;
             position: sticky;
-            top: 62px;
+            top: 60px;
             z-index: 100;
-            width: 24px;
-            height: 0;
-            margin-right: -30px;
             display: flex;
             flex-direction: column;
-            gap: 5px;
+            gap: 6px;
+            align-items: center;
         }
 
         .zoom-btn-v {
-            width: 24px;
-            height: 26px;
+            width: 28px;
+            height: 28px;
             background-color: var(--pure-white);
             color: var(--saudi-green);
             border: 1.5px solid var(--saudi-green);
-            border-radius: 5px;
-            font-size: 0.75rem;
+            border-radius: 6px;
+            font-size: 0.82rem;
             font-weight: bold;
             cursor: pointer;
             display: flex;
@@ -490,6 +492,8 @@
         }
 
         .grid-scroll-wrapper {
+            grid-column: 2;
+            grid-row: 2;
             width: 1000px;
             height: 1000px;
             overflow: auto;
@@ -1195,25 +1199,33 @@
                 font-size: 0.78rem;
             }
 
+            /* تخطيط الجوال: التلميح وأزرار التكبير في صف واحد فوق الشبكة */
             .side-pattern { display: none; }
             .main-layout { padding: 0 10px; }
-            .grid-outer-wrapper { width: 100%; max-width: 100%; }
+            .grid-outer-wrapper {
+                width: 100%;
+                max-width: 100%;
+                grid-template-columns: 1fr auto;
+                column-gap: 8px;
+                row-gap: 5px;
+                align-items: center;
+            }
 
-            /* شريط التلميح وأزرار التكبير في صف واحد فوق الشبكة */
-            .grid-top-bar {
-                margin-bottom: 5px;
-            }
             .grid-click-hint {
-                font-size: 0.74rem;
+                grid-column: 1;
+                grid-row: 1;
+                font-size: 0.73rem;
+                line-height: 1.4;
             }
+
             .zoom-controls-wrapper {
+                grid-column: 2;
+                grid-row: 1;
                 position: static;
-                width: auto;
-                height: auto;
-                margin: 0;
                 flex-direction: row;
                 gap: 6px;
             }
+
             .zoom-btn-v {
                 width: 30px;
                 height: 28px;
@@ -1221,6 +1233,8 @@
             }
 
             .grid-scroll-wrapper {
+                grid-column: 1 / -1;
+                grid-row: 2;
                 width: 100%;
                 height: auto;
                 max-height: 70vh;
@@ -1307,7 +1321,7 @@
     <!-- شريط السدو الأفقي للجوال -->
     <div class="mobile-sadu-strip" aria-hidden="true"></div>
 
-    <!-- 3. شريط الأدوات الموحد: البحث + تبديل العرض + التصنيفات -->
+    <!-- 3. شريط الأدوات الموحد: البحث + التصنيفات + تبديل العرض -->
     <div class="controls-toolbar">
         <div class="toolbar-row">
             <div class="search-box">
@@ -1333,13 +1347,12 @@
         <aside class="side-pattern sadu-right"></aside>
 
         <div class="grid-outer-wrapper">
-            <div class="grid-top-bar">
-                <span class="grid-click-hint">💡 اضغط على أي شعار للمعاينة، أو على أي مربع فارغ لحجزه</span>
-                <div class="zoom-controls-wrapper">
-                    <button id="zoom-in" class="zoom-btn-v" title="تكبير">➕</button>
-                    <button id="zoom-reset" class="zoom-btn-v" title="إعادة الضبط" style="font-size: 0.85rem;">🔄</button>
-                    <button id="zoom-out" class="zoom-btn-v" title="تصغير">➖</button>
-                </div>
+            <span class="grid-click-hint">💡 اضغط على أي شعار للمعاينة، أو على أي مربع فارغ لحجزه</span>
+
+            <div class="zoom-controls-wrapper">
+                <button id="zoom-in" class="zoom-btn-v" title="تكبير">➕</button>
+                <button id="zoom-reset" class="zoom-btn-v" title="إعادة الضبط" style="font-size: 0.85rem;">🔄</button>
+                <button id="zoom-out" class="zoom-btn-v" title="تصغير">➖</button>
             </div>
 
             <div class="grid-scroll-wrapper" id="gridScrollWrapper">
@@ -1687,7 +1700,6 @@
 
             // 1. بناء اللوحة والدليل معاً من ads.js
             function renderAds() {
-                // إزالة الشعارات القديمة مع الإبقاء على مؤشر التحديد
                 grid.querySelectorAll('.ad-block').forEach(el => el.remove());
                 directoryGrid.innerHTML = '';
                 activeCategories.clear();
@@ -1961,7 +1973,6 @@
                 if (gridX < 0) gridX = 0; if (gridY < 0) gridY = 0;
                 if (gridX > 990) gridX = 990; if (gridY > 990) gridY = 990;
 
-                // التأكد أن النقطة غير محجوزة
                 if (typeof adsData !== 'undefined' && Array.isArray(adsData)) {
                     const isOccupied = adsData.some(ad =>
                         (gridX < ad.x + ad.w) && (gridX + 10 > ad.x) &&
